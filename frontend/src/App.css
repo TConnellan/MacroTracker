@@ -1,10 +1,28 @@
+body {
+  background-color: rgb(238, 224, 241);
+}
+
 .App {
   font-family: "Times New Roman", Times, serif;
 }
 
+.Login {
+  width: 300px;
+  margin: 0 auto;
+  background: tan;
+  box-sizing: border-box;
+}
+.Login-button {
+  width: 100px;
+  margin: 0 auto;
+  background: lightgrey;
+  border-radius: 5px;
+}
+
 .App-logo {
-  height: 15vmin;
+  height: 8vmin;
   pointer-events: none;
+  padding-left: 15px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -16,13 +34,29 @@
 .App-header {
   text-align: center;
   background-color: #282c34;
-  min-height: 40vh;
+  min-height: 15vh;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.Search {
+  padding-left: 10px;
+  float: left;
+}
+
+.Totals {
+  padding-left: 100px;
+  float: left;
+
+}
+
+.Totals-table {
+  border: 1px solid;
 }
 
 .App-link {
@@ -39,5 +73,5 @@
 }
 
 .h1 {
-  padding: 10px;
+  padding: -10px;
 }

@@ -2,13 +2,19 @@ import Header from './components/Header';
 import bread from './bread_logo_transparent.png';
 import SearchForm from './components/SearchForm'
 import Login from './components/Login'
+import Totals from './components/Totals';
 import './App.css';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 const App = () => {
   const [searchValue, setSearchValue] = useState('')
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  useEffect(() => {
+    document.title = "MacroTracker"
+  }, [])
 
   const handleUser = (event) => {
     event.preventDefault()
@@ -34,11 +40,17 @@ const App = () => {
     event.preventDefault()
   }
 
+  const toggleLogIn = (event) => {
+    event.preventDefault()
+    setLoggedIn(!loggedIn)
+  }
+
   return (
     <div className="App">
       <Header logo = {bread}/>
-      <Login user = {user} handleUser = {handleUser} pass = {pass} handlePass = {handlePass} doLogin = {doLogin}/>
+      <Login user = {user} handleUser = {handleUser} pass = {pass} handlePass = {handlePass} doLogin = {toggleLogIn} isLoggedIn = {loggedIn}/>
       <SearchForm value = {searchValue} onChange={handleSearch} onSubmit = {submitSearch}/>
+      <Totals isLoggedIn = {loggedIn}/>
     </div>
   );
 }
