@@ -3,14 +3,20 @@ import bread from './bread_logo_transparent.png';
 import SearchForm from './components/SearchForm'
 import Login from './components/Login'
 import Totals from './components/Totals';
+import consumedServices from './services/consumed'
 import './App.css';
 import {useState, useEffect} from 'react'
+import Sidebar from './components/Sidebar';
+import Display from './components/Display';
 
 const App = () => {
   const [searchValue, setSearchValue] = useState('')
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
+  const [consumed, setConsumed] = useState([])
+  const [consumedDate, setConsumedDate] = useState('')
+  const [updateConsumed, setUpdateConsumed] = useState(false)
 
   useEffect(() => {
     document.title = "MacroTracker"
@@ -38,6 +44,9 @@ const App = () => {
 
   const doLogin = (event) => {
     event.preventDefault()
+    setUser(1)
+    console.log(`Id set to: ${1}`);
+    setLoggedIn(!loggedIn)
   }
 
   const toggleLogIn = (event) => {
@@ -45,14 +54,38 @@ const App = () => {
     setLoggedIn(!loggedIn)
   }
 
+  const toggleUpdateConsumed = () => {
+    console.log("toggling consumed data, expect to see request sent");
+    setUpdateConsumed(!updateConsumed)
+  }
+
+  useEffect(() => {
+    if (user) {
+      consumedServices.getAllConsumedByDate(user, consumedDate)
+        .then(initialData => {
+          setConsumed(initialData)
+          console.log(initialData)
+        })
+    }
+  }, [updateConsumed])
+    
+
   return (
     <div className="App">
       <Header logo = {bread}/>
-      <Login user = {user} handleUser = {handleUser} pass = {pass} handlePass = {handlePass} doLogin = {toggleLogIn} isLoggedIn = {loggedIn}/>
-      <SearchForm value = {searchValue} onChange={handleSearch} onSubmit = {submitSearch}/>
-      <Totals isLoggedIn = {loggedIn}/>
+      <Login user = {user} handleUser = {handleUser} pass = {pass} handlePass = {handlePass} doLogin = {doLogin} isLoggedIn = {loggedIn}/>
+      <div id="container">
+        <div id="Sidebar">
+          <Sidebar buttonLabels={["Todays Macros", "History", "Statistics", "Friends"]} isLoggedIn={loggedIn} todaysMacrosClick={toggleUpdateConsumed}/>
+        </div>
+        <div id="display">
+          <Display isLoggedIn={loggedIn} user={user} consumed={consumed} consumedDate={""} setConsumed={setConsumed}/>
+        </div>
+      </div>
     </div>
   );
 }
+//<SearchForm value = {searchValue} onChange={handleSearch} onSubmit = {submitSearch}/>
+//<Totals isLoggedIn = {loggedIn}/>
 
 export default App;
