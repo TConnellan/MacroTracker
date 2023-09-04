@@ -1,0 +1,25 @@
+{
+  "name": "macrotrackerbackend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"echo \\\\\\\"Error: no test specified\\\\\\\" && exit 1\"",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build:ui": "rm -rf ./build && cd ../frontend && npm run build && cp -r ./build ../backend",
+    "prod:logs": "fly logs",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy"
+  },
+  "author": "TConnellan",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22",
+    "pg": "^8.11.0"
+  }
+}
