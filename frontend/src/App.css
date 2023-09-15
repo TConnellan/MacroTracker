@@ -2,7 +2,7 @@ body {
   background-color: rgb(238, 224, 241);
 }
 
-#container {
+#Container {
   height: 100%;
   width: 100%;
   display: flex;
@@ -33,6 +33,10 @@ body {
 #Display {
   width: 100%;
   justify-content: center;
+}
+
+.Consumable-form {
+  margin: 30% 20%;
 }
 
 .Sidebar-button {

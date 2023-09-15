@@ -38,25 +38,43 @@ WHERE user_id = 1 AND consumed_at IS NULL;
         .then(resp => response.json(resp.rows))
 })
 
-app.get("/api/users/:username", (request, response) => {
-    //response.json(persons)
-    
-    const query = 
+
+app.post("/api/consumed/addconsumable", (request, response) => {
+    const data = request.body
+    console.log(request);
+    const values = [data.name,data.brand_name,data.size,data.units,data.carbs,data.fats,data.proteins]
+    const query=
 `
-    SELECT 
-    table_name, 
-    column_name, 
-    data_type 
- FROM 
-    information_schema.columns
- WHERE 
-    table_name = 'user_profile'
+INSERT into consumable(cons_name, brand_name, size, units, carbs, fats, proteins) values ($1,$2,$3,$4,$5,$6,$7);
 `
-    pool
-        //.query(query) //"SELECT * FROM user_profile"
-        .query(query) //"SELECT * FROM user_profile"
-        .then(resp => response.json(resp.rows))
+    pool.query(query, values)
+        .then(resp => {
+            response.status(201)
+            response.send(resp)
+        })
 })
+
+
+// app.get("/api/users/:username", (request, response) => {
+//     //response.json(persons)
+    
+//     const query = 
+// `
+//     SELECT 
+//     table_name, 
+//     column_name, 
+//     data_type 
+//  FROM 
+//     information_schema.columns
+//  WHERE 
+//     table_name = 'user_profile'
+// `
+//     pool
+//         //.query(query) //"SELECT * FROM user_profile"
+//         .query(query) //"SELECT * FROM user_profile"
+//         .then(resp => response.json(resp.rows))
+// })
+
 
 
 const PORT = process.env.PORT

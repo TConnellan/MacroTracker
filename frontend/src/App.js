@@ -9,6 +9,7 @@ import {useState, useEffect} from 'react'
 import Sidebar from './components/Sidebar';
 import Display from './components/Display';
 
+
 const App = () => {
   const [searchValue, setSearchValue] = useState('')
   const [user, setUser] = useState('')
@@ -17,10 +18,20 @@ const App = () => {
   const [consumed, setConsumed] = useState([])
   const [consumedDate, setConsumedDate] = useState('')
   const [updateConsumed, setUpdateConsumed] = useState(false)
+  const [cons, setCons] = useState({name:'',brand:'',size:0, units:'', carbs:0, fats:0,proteins:0})
 
   useEffect(() => {
     document.title = "MacroTracker"
   }, [])
+
+  useEffect(() => {
+    const today = Date()
+    setConsumedDate(today)
+  }, [])
+  
+  useEffect(() => {
+    console.log(`Set todays date: ${consumedDate}`)
+  }, [consumedDate])
 
   const handleUser = (event) => {
     event.preventDefault()
@@ -74,12 +85,12 @@ const App = () => {
     <div className="App">
       <Header logo = {bread}/>
       <Login user = {user} handleUser = {handleUser} pass = {pass} handlePass = {handlePass} doLogin = {doLogin} isLoggedIn = {loggedIn}/>
-      <div id="container">
+      <div id="Container">
         <div id="Sidebar">
           <Sidebar buttonLabels={["Todays Macros", "History", "Statistics", "Friends"]} isLoggedIn={loggedIn} todaysMacrosClick={toggleUpdateConsumed}/>
         </div>
         <div id="display">
-          <Display isLoggedIn={loggedIn} user={user} consumed={consumed} consumedDate={""} setConsumed={setConsumed}/>
+          <Display isLoggedIn={loggedIn} user={user} consumed={consumed} consumedDate={consumedDate} setConsumed={setConsumed} cons={cons}setCons={setCons}/>
         </div>
       </div>
     </div>
