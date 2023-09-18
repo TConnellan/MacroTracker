@@ -1,28 +1,24 @@
-
-import ConsumableForm from "./ConsumableForm";
 import Totals from "./Totals"
-import { useState } from "react";
+import DailyMacros from "./DailyMacros"
 
-const Display = ({isLoggedIn, user, consumed, consumedDate, setConsumed, cons, setCons}) => {
-    
+const Display = ({isLoggedIn, user, consumed, consumedDate, setConsumed, createConsumable, createConsumed}) => {
 
-    const handleCons = (e) => {
-        e.preventDefault()
-        console.log(e);
-        const newCons = {...cons, [e.target.name]: e.target.value}
-        console.log(newCons)
-        setCons(newCons)
-    }
+
 
     if (isLoggedIn) {
         return (
-            <>
-            <h3>{consumedDate}</h3>
-            <Totals isLoggedIn={isLoggedIn} consumed={consumed}/>
-            <div className="Consumable-form">
-                <ConsumableForm onSubmit={(e) => {e.preventDefault(); console.log("entered a consumable")}} cons={cons} onChange={handleCons}/>
+            <div id="Display">
+            
+            <div>
+                <h3>{consumedDate}</h3>
+                <Totals isLoggedIn={isLoggedIn} consumed={consumed}/>
             </div>
-            </>
+            
+            <div className="Consumable-form">
+                <DailyMacros user = {user} createConsumable ={createConsumable} createConsumed={createConsumed}/>
+                
+            </div>
+            </div>
             )
     } else {
         return <></>

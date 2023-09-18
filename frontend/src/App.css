@@ -33,11 +33,22 @@ body {
 #Display {
   width: 100%;
   justify-content: center;
+  display: flex; 
 }
 
-.Consumable-form {
+#CreationForm {
   margin: 30% 20%;
 }
+
+.creationForm-Choice {
+  width: 300px;
+}
+
+input {
+  display: block;
+}
+
+
 
 .Sidebar-button {
   width: 100%;

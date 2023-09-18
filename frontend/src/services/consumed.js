@@ -24,7 +24,12 @@ proteins}
 */
 const postNewConsumable = (data) => {
     const ext  = `consumed/addconsumable`
-    return axios.post(`${baseUrl}/${ext}`, data)
+    return axios.post(`${baseUrl}${ext}`, data)
 }
 
-export default {getAllConsumedByDate, postNewConsumable}
+const postConsumedEvent = (data) => {
+    const ext = `consumed/addconsumed`
+    return axios.post(`${baseUrl}${ext}`, data)
+}
+
+export default {getAllConsumedByDate, postNewConsumable, postConsumedEvent}

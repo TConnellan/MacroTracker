@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS recipe CASCADE;
 
 CREATE TABLE IF NOT EXISTS recipe (
    id INTEGER               PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+   recipe_name VARCHAR(50)  ,
    creator_id INTEGER       ,
    created_at TIMESTAMP     ,
    last_edited_at TIMESTAMP ,
@@ -59,7 +60,8 @@ CREATE TABLE IF NOT EXISTS consumed (
    proteins DOUBLE PRECISION,
    consumed_at TIMESTAMP    ,
    created_at TIMESTAMP     ,
-   last_edited_at TIMESTAMP
+   last_edited_at TIMESTAMP ,
+   notes TEXT
 );
 
 DROP TABLE IF EXISTS favourite CASCADE;

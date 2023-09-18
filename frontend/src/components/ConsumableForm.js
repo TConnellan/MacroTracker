@@ -1,29 +1,32 @@
 import Select from 'react-select'
 
-const ConsumableForm = ({onSubmit, cons, onChange}) => {
+const ConsumableForm = ({onSubmit, cons, onChange, selectOnChange}) => {
     const options = [{value: 'ml', label: 'milliliters'},
                      {value: 'g', label: 'grams'}
                     ]
     return (
         <form onSubmit={onSubmit} className='Consumable-form'>
+            <h3>Add a Base Component:</h3>
             <div>
-                Name: <input defaultValue = {cons.name} onchange={onChange}/>
+                Name: <input name={"name"} defaultValue = {cons.name} onChange={onChange}/>
             </div>
             <div>
-                Brand Name: <input defaultValue = {cons.brand} onchange={onChange}/>
+                Brand Name: <input name="brand" defaultValue = {cons.brand} onChange={onChange}/>
             </div>
             <div>
-                Size: <input defaultValue = {cons.size} onchange={onChange}/>
-            </div>
-
-            <div>
-                Carbs (g): <input defaultValue = {cons.carbs} onchange={onChange}/>
+                Size: <input name="size" defaultValue = {cons.size} onChange={onChange}/>
             </div>
             <div>
-                Fats (g): <input defaultValue= {cons.fats} onchange={onChange}/>
+                Units: <Select name={"units"} onChange={selectOnChange} options={options}/>
             </div>
             <div>
-                Proteins (g): <input defaultValue = {cons.proteins} onchange={onChange}/>
+                Carbs (g): <input name="carbs" defaultValue = {cons.carbs} onChange={onChange}/>
+            </div>
+            <div>
+                Fats (g): <input name="fats" defaultValue= {cons.fats} onChange={onChange}/>
+            </div>
+            <div>
+                Proteins (g): <input name="proteins" defaultValue = {cons.proteins} onChange={onChange}/>
             </div>
             <div>
                 <button type="submit">add</button>
@@ -32,9 +35,7 @@ const ConsumableForm = ({onSubmit, cons, onChange}) => {
     )
 }
 /*
-            <div>
-                Units: <Select name={"units"} onchange={() => {console.log("units")}} options={options}/>
-            </div>
+
 */
 
 

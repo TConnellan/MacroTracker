@@ -18,7 +18,7 @@ const App = () => {
   const [consumed, setConsumed] = useState([])
   const [consumedDate, setConsumedDate] = useState('')
   const [updateConsumed, setUpdateConsumed] = useState(false)
-  const [cons, setCons] = useState({name:'',brand:'',size:0, units:'', carbs:0, fats:0,proteins:0})
+
 
   useEffect(() => {
     document.title = "MacroTracker"
@@ -90,7 +90,7 @@ const App = () => {
           <Sidebar buttonLabels={["Todays Macros", "History", "Statistics", "Friends"]} isLoggedIn={loggedIn} todaysMacrosClick={toggleUpdateConsumed}/>
         </div>
         <div id="display">
-          <Display isLoggedIn={loggedIn} user={user} consumed={consumed} consumedDate={consumedDate} setConsumed={setConsumed} cons={cons}setCons={setCons}/>
+          <Display isLoggedIn={loggedIn} user={user} consumed={consumed} consumedDate={consumedDate} setConsumed={setConsumed} createConsumable={consumedServices.postNewConsumable} createConsumed={consumedServices.postConsumedEvent}/>
         </div>
       </div>
     </div>

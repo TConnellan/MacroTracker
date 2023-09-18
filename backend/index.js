@@ -54,6 +54,26 @@ INSERT into consumable(cons_name, brand_name, size, units, carbs, fats, proteins
         })
 })
 
+app.post("/api/consumed/addconsumed", (request, response) => {
+    const data = request.body
+    console.log(request.body);
+    const values = [data.user_id,data.recipe_id,data.quantity,data.carbs,data.fats,data.proteins,data.consumed_at,data.created_at,data.last_edited_at,data.notes]
+    const query=
+`
+INSERT into consumed(user_id, recipe_id, quantity, carbs, fats, proteins, consumed_at, created_at, last_edited_at, notes) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);
+`
+    pool.query(query, values)
+        .then(resp => {
+            response.status(201)
+            response.send(resp)
+        })
+        .catch(error => {
+            console.error(error)
+            response.status(500)
+            response.send()
+        })
+})
+
 
 // app.get("/api/users/:username", (request, response) => {
 //     //response.json(persons)

@@ -1,0 +1,5 @@
+//POST https://lemon-pages-331.fly.dev/api/persons
+POST http://localhost:3001/api/consumed/addconsumable
+Content-Type : application/json
+
+{ "name": "Milk", "brand_name": "Norco", "size": 100, "units": "ml", "carbs": 12, "fats": 10, "proteins": 6}setConsumed
