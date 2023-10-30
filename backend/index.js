@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(express.static('build'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'))
 
-const pool = new Pool()
+const pool = new Pool({connectionString: process.env.DATABASE_URL})
 pool
     .connect() // will be based on parameters in environment
     .then(() => {
@@ -35,7 +35,7 @@ FROM consumed
 WHERE user_id = 1 AND consumed_at IS NULL;
 `
     pool.query(query) //"SELECT * FROM user_profile"
-        .then(resp => response.json(resp.rows))
+       .then(resp => response.json(resp.rows))
 })
 
 
@@ -97,12 +97,15 @@ INSERT into consumed(user_id, recipe_id, quantity, carbs, fats, proteins, consum
 
 
 
-const PORT = process.env.PORT
-// for dev
-if (PORT === "3001") {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-    })
-} else {
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
-}
+})
+// for dev
+// if (PORT === "3001") {
+//     app.listen(PORT, () => {
+//         console.log(`Server running on port ${PORT}`)
+//     })
+// } else {
+//     console.log(`Server running on port ${PORT}`)
+// }
