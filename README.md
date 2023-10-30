@@ -1,5 +1,6 @@
 # MacroTracker
 Application for tracking nutritional intake and nutritional values of custom meals
+[Deployed with fly.io](https://macro-tracker-512.fly.dev/)
 
 ## Built With
 
