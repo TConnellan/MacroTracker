@@ -19,7 +19,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :p
 app.use(middleware.requestLogger)
 
 app.use('/api/consumed', consumedRouter)
-app.use('/api/userRouter', userRouter)
+app.use('/api/user', userRouter)
 
 
 app.use(middleware.unknownEndpoint)
