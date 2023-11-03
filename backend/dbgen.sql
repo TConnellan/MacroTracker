@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS user_profile (
    username VARCHAR(20)     UNIQUE NOT NULL,
    salt CHAR(32)            NOT NULL,
    password_hash BYTEA      ,
-   created_at TIMESTAMP     ,
+   created_at TIMESTAMP     DEFAULT current_timestamp,
    avatar INTEGER            
 );
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS recipe (
    id INTEGER               PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
    recipe_name VARCHAR(50)  ,
    creator_id INTEGER       ,
-   created_at TIMESTAMP     ,
+   created_at TIMESTAMP     DEFAULT current_timestamp,
    last_edited_at TIMESTAMP ,
    notes TEXT
 );
@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS recipe_component (
    id INTEGER               PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
    recipe_id INTEGER        NOT NULL,
    component_id INTEGER     NOT NULL,
+   created_at TIMESTAMP     DEFAULT current_timestamp,
    quantity DOUBLE PRECISION,   
    step_no INTEGER          ,
    step_description TEXT    
@@ -59,7 +60,7 @@ CREATE TABLE IF NOT EXISTS consumed (
    fats DOUBLE PRECISION    ,
    proteins DOUBLE PRECISION,
    consumed_at TIMESTAMP    ,
-   created_at TIMESTAMP     ,
+   created_at TIMESTAMP     DEFAULT current_timestamp,
    last_edited_at TIMESTAMP ,
    notes TEXT
 );
@@ -69,7 +70,8 @@ DROP TABLE IF EXISTS favourite CASCADE;
 CREATE TABLE IF NOT EXISTS favourite (
    id INTEGER               PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
    user_id INTEGER          NOT NULL,
-   recipe_id INTEGER        NOT NULL
+   recipe_id INTEGER        NOT NULL,
+   created_at TIMESTAMP     DEFAULT current_timestamp
 );
 
 ALTER TABLE recipe ADD CONSTRAINT fk_creator FOREIGN KEY (creator_id) REFERENCES user_profile(id);

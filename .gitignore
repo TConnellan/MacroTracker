@@ -1,3 +1,4 @@
 db.dbml
+backend/dbpop.sql
 node_modules
 .env
