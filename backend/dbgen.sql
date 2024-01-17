@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS user_profile (
    id INTEGER               PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
    username VARCHAR(20)     UNIQUE NOT NULL,
    salt CHAR(32)            NOT NULL,
-   password_hash BYTEA      ,
+   password_hash VARCHAR(255),
    created_at TIMESTAMP     DEFAULT current_timestamp,
    avatar INTEGER            
 );

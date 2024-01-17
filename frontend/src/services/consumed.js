@@ -4,9 +4,9 @@ const baseUrl = "/api/"
 
 
 
-const getAllConsumedByDate = (user, date) => {
+const getAllConsumedByDate = (user, date, token) => {
     const ext = `consumed/${user}&${date}`
-    return axios.get(`${baseUrl}${ext}`, )
+    return axios.get(`${baseUrl}${ext}`, {headers: {authorization: `Bearer ${token}`}})
         .then(response => response.data)
         .catch(error => {console.log(error);})
 
@@ -22,14 +22,16 @@ carbs
 fats
 proteins}
 */
-const postNewConsumable = (data) => {
+const postNewConsumable = (data, token) => {
     const ext  = `consumed/addconsumable`
-    return axios.post(`${baseUrl}${ext}`, data)
+    // data.headers = {authorization: `Bearer ${token}`}
+    return axios.post(`${baseUrl}${ext}`, data, {headers: {authorization: `Bearer ${token}`}})
 }
 
-const postConsumedEvent = (data) => {
+const postConsumedEvent = (data, token) => {
     const ext = `consumed/addconsumed`
-    return axios.post(`${baseUrl}${ext}`, data)
+    // data.headers = {...data.headers, authorization: `Bearer ${token}`}
+    return axios.post(`${baseUrl}${ext}`, data, {headers: {authorization: `Bearer ${token}`}})
 }
 
 export default {getAllConsumedByDate, postNewConsumable, postConsumedEvent}

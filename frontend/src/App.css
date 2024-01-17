@@ -125,3 +125,15 @@ input {
 .h1 {
   padding: -10px;
 }
+
+.CreateAccountForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 300px;
+  margin: 0 auto;
+  background: tan;
+  box-sizing: border-box;
+}
+

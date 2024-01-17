@@ -1,0 +1,2 @@
+GET http://localhost:3001/api/consumed/toes&Wed%20Jan%2017%202024%2001:38:42%20GMT+1100%20(Australian%20Eastern%20Daylight%20Time
+Content-Type : application/json

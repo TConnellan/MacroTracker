@@ -11,7 +11,7 @@ const ConsumedForm = ({handleChange, consumed, submitCustomConsumed}) => {
                 <input id="carbs" name="carbs" defaultValue={consumed.carbs} onChange={handleChange} />
             </div>
             <div>
-            <label id="fats">Fats:</label>
+            <label for="fats">Fats:</label>
                 <input id="fats" name="fats" defaultValue={consumed.fats} onChange={handleChange} />
             </div>
             <div>
