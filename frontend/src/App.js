@@ -84,7 +84,7 @@ const App = () => {
 
   const submitConsumed = (data) => {
     consumedServices.postConsumedEvent({...data, user_id: userId}, token)
-    toggleUpdateConsumed() // Not ideal maybe, whole request when we could update the state here
+      .then(() => toggleUpdateConsumed()) // Not ideal maybe, whole request when we could update the state here
   }
 
   // const toggleLogIn = (event) => {
@@ -96,6 +96,12 @@ const App = () => {
     console.log("toggling consumed data, expect to see request sent");
     setUpdateConsumed(!updateConsumed)
   }
+
+  const removeConsumedEntry = (id) => {
+    consumedServices.deleteConsumedEvent(id, token)
+        .then(setConsumed(prevCons => prevCons.filter(cons => cons.id != id)))
+    // might want to always remove from local list anyway
+}
 
   useEffect(() => {
     if (userId) {
@@ -130,7 +136,8 @@ const App = () => {
                    consumed={consumed} 
                    consumedDate={consumedDate} 
                    setConsumed={setConsumed} 
-                   createConsumable={consumedServices.postNewConsumable} 
+                   createConsumable={consumedServices.postNewConsumable}
+                   removeConsumedEntry={removeConsumedEntry}
                    createConsumed={submitConsumed}/>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
-const ConsumedForm = ({handleChange, consumed, submitCustomConsumed}) => {
+const ConsumedForm = ({handleChange, handleDate, consumed, submitCustomConsumed}) => {
     // const emptyConsumedEvent = {recipe:'', quantity: '', carbs: 0, proteins: 0, consumedAt: ''}
     return (
         <form onSubmit={submitCustomConsumed} className='Consumable-form'>
@@ -27,11 +27,14 @@ const ConsumedForm = ({handleChange, consumed, submitCustomConsumed}) => {
             </div>
             <div>
             <label for = "date">Date:</label>
-                <DatePicker id="date" selected={consumed.consumed_at}       showTimeSelect
-      timeFormat="HH:mm"
-      timeIntervals={15}
-      timeCaption="time"
-      dateFormat="MMMM d, yyyy h:mm aa"/>
+                <DatePicker id="date" selected={consumed.consumed_at}
+                            showTimeSelect
+                            timeFormat="HH:mm"
+                            timeIntervals={15}
+                            timeCaption="time"
+                            dateFormat="MMMM d, yyyy h:mm aa"
+                            onChange={handleDate}
+                            />
             </div>
         </form>
     )

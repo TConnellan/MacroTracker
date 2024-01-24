@@ -26,10 +26,12 @@ const validateConsumed = (data) => {
     }
 
     
-    // const now = Date()
+    //const now = Date()
     // const now = "2022-10-10 11:30:30"
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    out.consumed_at = now
+    // console.log(out.date);
+    out.consumed_at = out.consumed_at.toISOString().slice(0, 19).replace('T', ' ');
+    console.log(`after transform: ${out.consumed_at}`)
     if (out.created_at == null) {
         out.created_at = now
     }

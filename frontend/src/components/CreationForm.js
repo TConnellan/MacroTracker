@@ -47,6 +47,13 @@ const DailyMacros = ({user, choice, createConsumable, createConsumed}) => {
         setConsumedEvent(newConsumedEvent)
     }
 
+    const handleDate = (e) => {
+        console.log(e);
+        const newConsumedEvent = {...consumedEvent, "consumed_at" : e}
+        console.log(newConsumedEvent)
+        setConsumedEvent(newConsumedEvent)
+    }
+
     const handleUnits = (e) => {
         
         console.log(e);
@@ -78,6 +85,7 @@ const DailyMacros = ({user, choice, createConsumable, createConsumed}) => {
         return (
             <div id="CreationForm">
                 <ConsumedForm handleChange={handleConsumed} 
+                              handleDate={handleDate}
                               consumed={consumedEvent} 
                               submitCustomConsumed={submitCustomConsumed}/>
             </div>

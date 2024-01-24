@@ -28,7 +28,7 @@ consumedRouter.get("/:userid&:date", (request, response) => {
     logger.logInfo(`date was: ${date}`);
     const query = 
 `
-SELECT carbs, fats, proteins 
+SELECT id, carbs, fats, proteins 
 FROM consumed
 WHERE user_id = $1 AND consumed_at >= CURRENT_DATE;
 `
@@ -118,6 +118,55 @@ INSERT into consumed(user_id, recipe_id, quantity, carbs, fats, proteins, consum
             logger.logError(`error connecting to db: ${err}`)
             response.status(500)
             response.send()
+        })
+})
+
+consumedRouter.delete("/:cons_id", (request, response) => {
+    const id = request.params.cons_id
+
+    check_query=
+`
+SELECT user_id
+FROM consumed
+WHERE id=$1;
+`
+    delete_query=
+`
+DELETE
+FROM consumed
+WHERE id=$1
+`
+
+    pool.connect()
+        .then(client => {
+            client.query(check_query, [id])
+                .then(resp => {
+                    if (resp.rows.length==0) {
+                        // respond doesn't exist
+
+                        return
+                    } else if (resp.rows.length>1) {
+                        console.log(resp);
+                        logger.logError("Uniqueness Constraint violated")
+                        // respond server error
+                        return
+                    } else if (resp.rows[0]["user_id"] != request.authorised.id) {
+                        //not authorised
+                        respondUnauthorisedAccess(response)
+                        return
+                    } else {
+                        client.query(delete_query, [id])
+                            .then(resp => {
+                                response.status(200)
+                                response.send(resp)
+                            })
+                    }
+
+                })
+                .catch(err => {
+                    logger.logError(err)
+                    response
+                })
         })
 })
 

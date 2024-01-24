@@ -34,4 +34,10 @@ const postConsumedEvent = (data, token) => {
     return axios.post(`${baseUrl}${ext}`, data, {headers: {authorization: `Bearer ${token}`}})
 }
 
-export default {getAllConsumedByDate, postNewConsumable, postConsumedEvent}
+const deleteConsumedEvent = (id, token) => {
+    const ext = `consumed/${id}`
+    return axios.delete(`${baseUrl}${ext}`, {headers: {authorization: `Bearer ${token}`}})
+
+}
+
+export default {getAllConsumedByDate, postNewConsumable, postConsumedEvent, deleteConsumedEvent}

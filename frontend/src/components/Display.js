@@ -1,7 +1,7 @@
 import Totals from "./Totals"
 import DailyMacros from "./DailyMacros"
 
-const Display = ({isLoggedIn, user, consumed, consumedDate, setConsumed, createConsumable, createConsumed}) => {
+const Display = ({isLoggedIn, user, consumed, consumedDate, setConsumed, removeConsumedEntry, createConsumable, createConsumed}) => {
 
 
 
@@ -11,7 +11,7 @@ const Display = ({isLoggedIn, user, consumed, consumedDate, setConsumed, createC
             
             <div>
                 <h3>{consumedDate}</h3>
-                <Totals isLoggedIn={isLoggedIn} consumed={consumed}/>
+                <Totals isLoggedIn={isLoggedIn} consumed={consumed} setConsumed={setConsumed} removeConsumedEntry={removeConsumedEntry}/>
             </div>
             
             <div className="Consumable-form">

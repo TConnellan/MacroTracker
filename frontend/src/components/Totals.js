@@ -2,8 +2,8 @@ import { useState } from "react"
 import MacroCalcs from "../utilities/macroCalculations"
 
 
-const Totals = ({isLoggedIn, consumed}) => {
-    const [hiddenButton, setHiddenButton] = useState({display: 'none'})
+const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry}) => {
+    const [hiddenButton, setHiddenButton] = useState({display: 'block'})
 
 
     const totalCarbs = consumed.reduce((x,y) => {
@@ -16,6 +16,7 @@ const Totals = ({isLoggedIn, consumed}) => {
         return {"proteins": x["proteins"] + y["proteins"]
     }}, {"proteins": 0})["proteins"]
     const totalKj = Math.round(MacroCalcs.calculateKilojoules(totalCarbs, totalFats, totalProteins)*10) / 10
+
     return (
     <div className = "Totals">
         <h2>Daily Totals</h2>
@@ -32,15 +33,15 @@ const Totals = ({isLoggedIn, consumed}) => {
             <tbody>
                 {consumed.map(val => 
                 <tr className="Totals-row"
-                    onMouseEnter={e => {setHiddenButton({display: 'block'})}}
-                    onMouseLeave={e => {setTimeout(setHiddenButton, 300, {display: 'none'})}}
+                    // onMouseEnter={e => {setHiddenButton({display: 'block'})}}
+                    // onMouseLeave={e => {setTimeout(setHiddenButton, 300, {display: 'none'})}}
                     >
                     <td>source</td>
                     <td>{MacroCalcs.calculateKilojoules(val["carbs"],val["fats"],val["proteins"])}</td>
                     <td>{val["carbs"]}</td>
                     <td>{val["fats"]}</td>
                     <td>{val["proteins"]}</td>
-                    <td style={hiddenButton}><button onClick={() => console.log("insert option to edit here")}>edit</button></td>
+                    <td style={hiddenButton}><button onClick={() => removeConsumedEntry(val.id)}>x</button></td>
                 </tr>
                 )}
             <tr>
