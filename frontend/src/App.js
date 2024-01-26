@@ -84,13 +84,8 @@ const App = () => {
 
   const submitConsumed = (data) => {
     consumedServices.postConsumedEvent({...data, user_id: userId}, token)
-      .then(() => toggleUpdateConsumed()) // Not ideal maybe, whole request when we could update the state here
+      .then(() => toggleUpdateConsumed()) // Not ideal maybe, whole request to get new consumed when we could update the state based on response
   }
-
-  // const toggleLogIn = (event) => {
-  //   event.preventDefault()
-  //   setLoggedIn(!loggedIn)
-  // }
 
   const toggleUpdateConsumed = () => {
     console.log("toggling consumed data, expect to see request sent");
