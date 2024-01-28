@@ -67,6 +67,14 @@ WHERE username = $1;`
                             respondAuthorisationFailed(response)
                         }
                     })
+                    .catch((err) => {
+                        logger.logError(err)
+                        respondServerError(err, response)
+                    })
+                    .finally(() => {
+                        client.release()
+                        logger.logInfo("Client Released")
+                    })
         .catch(err => {
             respondServerError(err, response)
         })
@@ -118,6 +126,7 @@ VALUES ($1, $2, $3);
                     })
                     .finally(() => {
                         client.release()
+                        logger.logInfo("Client Released")
                     })
         })
         .catch(err => {

@@ -47,9 +47,9 @@ WHERE user_id = $1;
                             logger.logInfo("Query Successful")
                         })
                         .catch(err => logger.logError(`Error in query: ${err}`))
-                        .finally(client => {
-                            // client.release()
-                            logger.logInfo("Client not Released")
+                        .finally(() => {
+                            client.release()
+                            logger.logInfo("Client Released")
                         })
         })
         .catch(err => {
@@ -81,7 +81,7 @@ INSERT into consumable(cons_name, brand_name, size, units, carbs, fats, proteins
                             logger.logInfo("Query Successful")
                         })
                         .catch(err => logger.logError(`Error in query: ${err}`))
-                        .finally((client) => {
+                        .finally(() => {
                             client.release()
                             logger.logInfo("Client Released")
                         })
@@ -110,12 +110,12 @@ INSERT into consumed(user_id, recipe_id, quantity, carbs, fats, proteins, consum
                 })
                 .catch(err => logger.logError(`Error in query: ${err}`))
                 .finally(() => {
-                    // client.release()
-                    logger.logInfo("Client Not Released")
+                    client.release()
+                    logger.logInfo("Client Released")
                 })
         })
         .catch(error => {
-            logger.logError(`error connecting to db: ${err}`)
+            logger.logError(`error connecting to db: ${error}`)
             response.status(500)
             response.send()
         })
@@ -166,6 +166,10 @@ WHERE id=$1
                 .catch(err => {
                     logger.logError(err)
                     response
+                })
+                .finally(() => {
+                    client.release()
+                    logger.logInfo("Client Released")
                 })
         })
 })
