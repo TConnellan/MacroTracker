@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import MacroCalcs from "../utilities/macroCalculations"
 
 
-const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry, startDate, endDate}) => {
+const Totals = ({consumed, setConsumed, removeConsumedEntry, startDate, endDate}) => {
     const [hiddenButton, setHiddenButton] = useState({display: 'block'})
     const [filteredConsumed, setFilteredConsumed] = useState([])
     const [totals, setTotals] = useState({totalKJ:0,totalCarbs:0,totalFats:0,totalProteins:0})

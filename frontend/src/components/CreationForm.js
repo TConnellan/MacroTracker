@@ -67,11 +67,12 @@ const CreationForm = ({user, choice, createConsumable, createConsumed, newConsum
         //     </div>
         // )
     } else if (choice == 'recipe') {
-        return (
-            <div id="CreationForm">
-                <RecipeForm onsubmit={() => console.log("submitting recipe form")} />
-            </div>
-        )
+        return <></>
+        // return (
+        //     <div id="CreationForm">
+        //         <RecipeForm onsubmit={() => console.log("submitting recipe form")} />
+        //     </div>
+        // )
     } else if (choice == 'add custom') {
         return (
             <div id="CreationForm">

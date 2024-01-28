@@ -4,9 +4,7 @@ import { useState } from "react"
 
 const DailyMacros = ({user, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
     
-    const options = [{label: "Create Recipe Component", value: "consumable"},
-                     {label: "Create Recipe", value: "recipe"},
-                     {label: "Add Custom Entry", value: "add custom"},
+    const options = [{label: "Add Custom Entry", value: "add custom"},
                      {label: "Add Entry from Recipe", value: "add recipe"}]
     // select form to pic what want to create
     const [choice, setChoice] = useState('add custom')

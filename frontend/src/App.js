@@ -8,7 +8,7 @@ import userServices from './services/user'
 import './App.css';
 import {useState, useEffect} from 'react'
 import Sidebar from './components/Sidebar';
-import Display from './components/Display';
+import MacroDisplay from './components/MacroDisplay';
 
 
 const App = () => {
@@ -105,36 +105,40 @@ const App = () => {
     }
   }, [updateConsumed])
     
-
-  return (
-    <div className="App">
-      <Header logo = {bread}/>
-      <Auth user = {user} 
-            handleUser = {handleUser} 
-            pass = {pass} 
-            handlePass = {handlePass} 
-            doLogin = {doLogin} 
-            isLoggedIn = {loggedIn}
-            createUser = {createUser}/>
-      <div id="Container">
-        <div id="Sidebar">
-          <Sidebar buttonLabels={["Todays Macros", "History", "Statistics", "Friends"]} 
-                   isLoggedIn={loggedIn} 
-                   todaysMacrosClick={toggleUpdateConsumed}/>
-        </div>
-        <div id="display">
-          <Display isLoggedIn={loggedIn} 
-                   user={user} 
-                   consumed={consumed} 
-                   consumedDate={consumedDate} 
-                   setConsumed={setConsumed} 
-                   createConsumable={consumedServices.postNewConsumable}
-                   removeConsumedEntry={removeConsumedEntry}
-                   createConsumed={submitConsumed}/>
+  if (loggedIn) {
+    return (
+      <div className="App">
+        <div id="Container">
+          <div id="Sidebar">
+            <Sidebar buttonLabels={["Macros", "Recipes", "History", "Statistics", "Friends"]}
+                     fetchConsumed={toggleUpdateConsumed}/>
+          </div>
+          <div id="display">
+            <MacroDisplay user={user} 
+                    consumed={consumed} 
+                    consumedDate={consumedDate} 
+                    setConsumed={setConsumed} 
+                    createConsumable={consumedServices.postNewConsumable}
+                    removeConsumedEntry={removeConsumedEntry}
+                    createConsumed={submitConsumed}/>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="App">
+        <Header logo = {bread}/>
+        <Auth user = {user} 
+              handleUser = {handleUser} 
+              pass = {pass} 
+              handlePass = {handlePass} 
+              doLogin = {doLogin} 
+              isLoggedIn = {loggedIn}
+              createUser = {createUser}/>
+      </div>
+    )
+  }
 }
 //<SearchForm value = {searchValue} onChange={handleSearch} onSubmit = {submitSearch}/>
 //<Totals isLoggedIn = {loggedIn}/>
