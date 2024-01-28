@@ -1,21 +1,43 @@
 import Totals from "./Totals"
 import DailyMacros from "./DailyMacros"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import consumedEventGenerator from "../utilities/generateEvent"
+import DateRange from './DateRange'
 
 const Display = ({isLoggedIn, user, consumed, consumedDate, setConsumed, removeConsumedEntry, createConsumable, createConsumed}) => {
     const [newConsumedEvent, setNewConsumedEvent] = useState(consumedEventGenerator.getEmptyConsumedEvent(user, new Date()))
+    const [selectedStartDate, setSelectedStartDate] = useState('')
+    const [selectedEndDate, setSelectedEndDate] = useState(null)
+
+    useEffect(() => {
+        const today = new Date()
+        today.setHours(0, 0, 0)
+        setSelectedStartDate(today)
+    }, [])
+
+    const createDateHeaderValue = (startDate, endDate) => {
+        return startDate.toString()
+    }
+
 
 
     if (isLoggedIn) {
         return (
-            <div id="Display">   
-                <div>
-                    <h3>{consumedDate}</h3>
+            <div id="Display">
+
+                <div> 
+                    <DateRange startDate={selectedStartDate}
+                               endDate={selectedEndDate} 
+                               setStartDate={setSelectedStartDate}
+                               setEndDate={setSelectedEndDate}
+                               timeInterval={5}/>
+                    <h3>{createDateHeaderValue(selectedStartDate, selectedEndDate)}</h3>
                     <Totals isLoggedIn={isLoggedIn} 
                             consumed={consumed} 
                             setConsumed={setConsumed} 
-                            removeConsumedEntry={removeConsumedEntry}/>
+                            removeConsumedEntry={removeConsumedEntry}
+                            startDate={selectedStartDate}
+                            endDate={selectedEndDate}/>
                 </div>
                 <div className="Consumable-form">
                     <DailyMacros user = {user} 

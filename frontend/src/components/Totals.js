@@ -1,21 +1,38 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MacroCalcs from "../utilities/macroCalculations"
 
 
-const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry}) => {
+const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry, startDate, endDate}) => {
     const [hiddenButton, setHiddenButton] = useState({display: 'block'})
+    const [filteredConsumed, setFilteredConsumed] = useState([])
+    const [totals, setTotals] = useState({totalKJ:0,totalCarbs:0,totalFats:0,totalProteins:0})
 
+    useEffect(() => {
+        setFilteredConsumed(consumed.filter((val) => {
+            const startCond = val.consumed_at >= startDate.toISOString().slice(0, 19)
+            var endCond = true
+            if (endDate) {
+                endCond = val.consumed_at <= endDate.toISOString().slice(0, 19)
+            }
+            return startCond && endCond
+        }))
+        
+    }, [startDate, endDate])
 
-    const totalCarbs = consumed.reduce((x,y) => {
-        return {"carbs": x["carbs"] + y["carbs"]
-    }}, {"carbs": 0})["carbs"]
-    const totalFats = consumed.reduce((x,y) => {
-        return {"fats": x["fats"] + y["fats"]
-    }}, {"fats": 0})["fats"]
-    const totalProteins = consumed.reduce((x,y) => {
-        return {"proteins": x["proteins"] + y["proteins"]
-    }}, {"proteins": 0})["proteins"]
-    const totalKj = Math.round(MacroCalcs.calculateKilojoules(totalCarbs, totalFats, totalProteins)*10) / 10
+    useEffect(() => {
+        const totalCarbs = filteredConsumed.reduce((x,y) => {
+            return {"carbs": x["carbs"] + y["carbs"]
+        }}, {"carbs": 0})["carbs"]
+        const totalFats = filteredConsumed.reduce((x,y) => {
+            return {"fats": x["fats"] + y["fats"]
+        }}, {"fats": 0})["fats"]
+        const totalProteins = filteredConsumed.reduce((x,y) => {
+            return {"proteins": x["proteins"] + y["proteins"]
+        }}, {"proteins": 0})["proteins"]
+        const totalKj = Math.round(MacroCalcs.calculateKilojoules(totalCarbs, totalFats, totalProteins)*10) / 10
+        setTotals({totalKJ:totalKj, totalCarbs:totalCarbs, totalFats:totalFats, totalProteins:totalProteins})
+    })
+
 
     return (
     <div className = "Totals">
@@ -31,7 +48,7 @@ const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry}) => {
                 </tr>
             </thead>
             <tbody>
-                {consumed.map(val => 
+                {filteredConsumed.map(val => 
                 <tr className="Totals-row"
                     // onMouseEnter={e => {setHiddenButton({display: 'block'})}}
                     // onMouseLeave={e => {setTimeout(setHiddenButton, 300, {display: 'none'})}}
@@ -46,10 +63,10 @@ const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry}) => {
                 )}
             <tr>
                 <td>Totals</td>
-                <td>{totalKj}</td>
-                <td>{totalCarbs}</td>
-                <td>{totalFats}</td>
-                <td>{totalProteins}</td>
+                <td>{totals.totalKj}</td>
+                <td>{totals.totalCarbs}</td>
+                <td>{totals.totalFats}</td>
+                <td>{totals.totalProteins}</td>
             </tr>
             </tbody>
         </table>

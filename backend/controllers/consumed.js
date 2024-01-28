@@ -28,15 +28,15 @@ consumedRouter.get("/:userid&:date", (request, response) => {
     logger.logInfo(`date was: ${date}`);
     const query = 
 `
-SELECT id, carbs, fats, proteins 
+SELECT id, recipe_id, quantity, carbs, fats, proteins, consumed_at, created_at, last_edited_at, notes
 FROM consumed
-WHERE user_id = $1 AND consumed_at >= CURRENT_DATE;
+WHERE user_id = $1;
 `
 // `
-// SELECT carbs, fats, proteins 
-// FROM consumed INNER JOIN user_profile ON user_profile.id=consumed.user_id
-// WHERE user_profile.id = $1; 
-// `  
+// SELECT id, carbs, fats, proteins 
+// FROM consumed
+// WHERE user_id = $1 AND consumed_at >= CURRENT_DATE;
+// ` 
    
     pool.connect() // will be based on parameters in environment
         .then((client) => {

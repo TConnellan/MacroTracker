@@ -67,8 +67,6 @@ const App = () => {
     
     userServices.loginUser({username: user, password: pass})
       .then(resp => {
-        console.log(`resp was ${JSON.stringify(resp)}`)
-        console.log(`data was ${JSON.stringify(resp.data)}`)
         setPass('')
         setToken(resp.data.token)
         setLoggedIn(true)
