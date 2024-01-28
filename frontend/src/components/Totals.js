@@ -17,7 +17,7 @@ const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry, startDa
             return startCond && endCond
         }))
         
-    }, [startDate, endDate])
+    }, [startDate, endDate, consumed])
 
     useEffect(() => {
         const totalCarbs = filteredConsumed.reduce((x,y) => {
@@ -29,17 +29,18 @@ const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry, startDa
         const totalProteins = filteredConsumed.reduce((x,y) => {
             return {"proteins": x["proteins"] + y["proteins"]
         }}, {"proteins": 0})["proteins"]
-        const totalKj = Math.round(MacroCalcs.calculateKilojoules(totalCarbs, totalFats, totalProteins)*10) / 10
-        setTotals({totalKJ:totalKj, totalCarbs:totalCarbs, totalFats:totalFats, totalProteins:totalProteins})
+        const totalKj = Math.round(MacroCalcs.calculateKilojoules(totalCarbs, totalFats, totalProteins))
+        setTotals({totalKj:totalKj, totalCarbs:totalCarbs, totalFats:totalFats, totalProteins:totalProteins})
     })
 
 
     return (
     <div className = "Totals">
-        <h2>Daily Totals</h2>
+        <h2>Totals</h2>
         <table className="Totals-table">
             <thead className="Totals-header">
                 <tr>
+                    <th>Date</th>
                     <th>Source</th>
                     <th>Kilojoules</th>
                     <th>Carbohydrates</th>
@@ -53,8 +54,9 @@ const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry, startDa
                     // onMouseEnter={e => {setHiddenButton({display: 'block'})}}
                     // onMouseLeave={e => {setTimeout(setHiddenButton, 300, {display: 'none'})}}
                     >
-                    <td>source</td>
-                    <td>{MacroCalcs.calculateKilojoules(val["carbs"],val["fats"],val["proteins"])}</td>
+                    <td>{MacroCalcs.formatDate(val.consumed_at)}</td>
+                    <td> - </td>
+                    <td>{Math.round(MacroCalcs.calculateKilojoules(val["carbs"],val["fats"],val["proteins"])*10)/10}</td>
                     <td>{val["carbs"]}</td>
                     <td>{val["fats"]}</td>
                     <td>{val["proteins"]}</td>
@@ -63,6 +65,7 @@ const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry, startDa
                 )}
             <tr>
                 <td>Totals</td>
+                <td> - </td>
                 <td>{totals.totalKj}</td>
                 <td>{totals.totalCarbs}</td>
                 <td>{totals.totalFats}</td>

@@ -101,7 +101,6 @@ const App = () => {
       consumedServices.getAllConsumedByDate(userId, consumedDate, token)
         .then(initialData => {
           setConsumed(initialData)
-          console.log(initialData)
         })
     }
   }, [updateConsumed])
