@@ -1,4 +1,5 @@
 db.dbml
 backend/dbpop.sql
+backend/dbselect.sql
 node_modules
 .env

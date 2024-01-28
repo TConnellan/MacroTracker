@@ -1,6 +1,6 @@
 import userServices from '../services/user'
 
-const NewUser = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount}) => {
+const Login = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount}) => {
 	
 	if (!isLoggedIn) {
 		return (
@@ -31,4 +31,4 @@ const NewUser = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggl
 	}
 }
 
-export default NewUser
+export default Login

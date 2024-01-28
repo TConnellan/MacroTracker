@@ -31,7 +31,7 @@ const Totals = ({isLoggedIn, consumed, setConsumed, removeConsumedEntry, startDa
         }}, {"proteins": 0})["proteins"]
         const totalKj = Math.round(MacroCalcs.calculateKilojoules(totalCarbs, totalFats, totalProteins))
         setTotals({totalKj:totalKj, totalCarbs:totalCarbs, totalFats:totalFats, totalProteins:totalProteins})
-    })
+    }, [filteredConsumed])
 
 
     return (
