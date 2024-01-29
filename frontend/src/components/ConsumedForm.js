@@ -1,25 +1,27 @@
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
+
+// Form for creating a custom consumed event, not saved as a consumable in the DB
 const ConsumedForm = ({handleChange, handleDate, consumed, submitCustomConsumed}) => {
     // const emptyConsumedEvent = {recipe:'', quantity: '', carbs: 0, proteins: 0, consumedAt: ''}
     return (
         <form onSubmit={submitCustomConsumed} className='Consumable-form'>
             <h3>Add a Custom Event</h3>
             <div>
-            <label for="carbs">Carbs:</label>
+                <label for="carbs">Carbs:</label>
                 <input id="carbs" name="carbs" defaultValue={consumed.carbs} onChange={handleChange} />
             </div>
             <div>
-            <label for="fats">Fats:</label>
+                <label for="fats">Fats:</label>
                 <input id="fats" name="fats" defaultValue={consumed.fats} onChange={handleChange} />
             </div>
             <div>
-            <label for="proteins">Proteins:</label>
+                <label for="proteins">Proteins:</label>
                 <input id="proteins" name="proteins" defaultValue={consumed.proteins} onChange={handleChange} />
             </div>
             <div>
-            <label for="notes">Notes:</label>
+                <label for="notes">Notes:</label>
                 <input id="notes" name="notes" defaultValue={consumed.notes} onChange={handleChange}/>
             </div>
             <div>
