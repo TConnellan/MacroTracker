@@ -108,6 +108,7 @@ const App = () => {
   if (loggedIn) {
     return (
       <div className="App">
+        <Header logo = {bread}/>
         <div id="Container">
           <div id="Sidebar">
             <Sidebar buttonLabels={["Macros", "Recipes", "History", "Statistics", "Friends"]}
