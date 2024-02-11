@@ -1,5 +1,6 @@
 import { useState } from "react"
 import SearchForm from "./SearchForm"
+import NewConsumable from "./NewConsumable"
 
 
 const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, setRecipeComponents}) => {

@@ -1,5 +1,6 @@
 
-
+import ConsumableForm
+ from "./ConsumableForm"
 const NewConsumable = () => {
 
     return (

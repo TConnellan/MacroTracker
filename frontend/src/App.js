@@ -1,14 +1,12 @@
 import Header from './components/Header';
 import bread from './bread_logo_transparent.png';
-import SearchForm from './components/SearchForm'
 import Auth from './components/Auth'
-import Totals from './components/Totals';
 import consumedServices from './services/consumed'
 import userServices from './services/user'
 import './App.css';
 import {useState, useEffect} from 'react'
 import Sidebar from './components/Sidebar';
-import MacroDisplay from './components/MacroDisplay';
+import Display from './components/Display';
 
 
 const App = () => {
@@ -21,6 +19,7 @@ const App = () => {
   const [consumed, setConsumed] = useState([])
   const [consumedDate, setConsumedDate] = useState('')
   const [updateConsumed, setUpdateConsumed] = useState(false)
+  const [sidebarChoice, setSidebarChoice] = useState("Macros")
 
 
   useEffect(() => {
@@ -104,17 +103,24 @@ const App = () => {
         })
     }
   }, [updateConsumed])
+
+  const updateSidebarChoice = (choice) => {
+    setSidebarChoice(choice)
+    if (choice == "Macros") {
+      toggleUpdateConsumed()
+    }
+  }
     
   if (loggedIn) {
     return (
       <div className="App">
         <div id="Container">
           <div id="Sidebar">
-            <Sidebar buttonLabels={["Macros", "Recipes", "History", "Statistics", "Friends"]}
-                     fetchConsumed={toggleUpdateConsumed}/>
+            <Sidebar updateSidebarChoice={updateSidebarChoice}/>
           </div>
           <div id="display">
-            <MacroDisplay user={user} 
+            <Display sidebarChoice={sidebarChoice} 
+                    user={user} 
                     consumed={consumed} 
                     consumedDate={consumedDate} 
                     setConsumed={setConsumed} 
