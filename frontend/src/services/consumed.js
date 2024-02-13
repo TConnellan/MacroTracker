@@ -40,4 +40,9 @@ const deleteConsumedEvent = (id, token) => {
 
 }
 
-export default {getAllConsumedByDate, postNewConsumable, postConsumedEvent, deleteConsumedEvent}
+const getConsumableSearchResults = (searchName, token) => {
+    const ext = `consumable/search/${searchName}`
+    return axios.get(`${baseUrl}${ext}`, {headers: {authorization: `Bearer ${token}`}})
+}
+
+export default {getAllConsumedByDate, postNewConsumable, postConsumedEvent, deleteConsumedEvent, getConsumableSearchResults}

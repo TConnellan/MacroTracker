@@ -1,12 +1,14 @@
 import { useState } from "react"
 import RecipeComponentForm from "./RecipeComponentForm"
+import EventTemplateGenerator from "../utilities/generateEvent"
 
 
 
-
-const RecipeComponentPanel = ({recipeComponents, setRecipeComponents}) => {
+const RecipeComponentPanel = ({recipeComponents, setRecipeComponents, token}) => {
     const [recipeStep, setRecipeStep] = useState(1)
-    
+
+
+
     const movePanel = (increment) => {
         setRecipeStep(step => {
             // this works but logic might not be clear
@@ -22,18 +24,26 @@ const RecipeComponentPanel = ({recipeComponents, setRecipeComponents}) => {
             return newStep
         })
     }
+
+    const extendComponents = () => {
+        setRecipeComponents(comps => {
+            return [...recipeComponents, EventTemplateGenerator.getEmptyRecipeComponent(comps.length + 1)]
+        })
+    }
+
     // give classname which defines horizontal layout of buttons etc
     return (
         <div>
-            <button onClick={() => {movePanel(-1)}}>{"<"}</button>
+            <button onClick={(event) => {event.preventDefault(); movePanel(-1)}}>{"<"}</button>
                 <div>
-                    <RecipeComponentForm updateComponent={() => {console.log("need to update component")}}
+                    <RecipeComponentForm token={token}
+                                         updateComponent={() => {console.log("need to update component")}}
                                          recipeStep={recipeStep}
                                          recipeComponents={recipeComponents}
                                          setRecipeComponents={setRecipeComponents}/>
                     <button type="submit" >Save</button>
                 </div>
-            <button onClick={() => {movePanel(1)}}>{">"}</button>
+            {recipeStep == recipeComponents.length ? <button onClick={(event) => {event.preventDefault(); extendComponents()}}>{"+"}</button> : <button onClick={(event) => {event.preventDefault(); movePanel(1)}}>{">"}</button>}
         </div>
     )
 }

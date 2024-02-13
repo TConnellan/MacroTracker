@@ -96,6 +96,7 @@ const App = () => {
 }
 
   useEffect(() => {
+    console.log("use effect toggling")
     if (userId) {
       consumedServices.getAllConsumedByDate(userId, consumedDate, token)
         .then(initialData => {
@@ -122,6 +123,7 @@ const App = () => {
           <div id="display">
             <Display sidebarChoice={sidebarChoice} 
                     user={user} 
+                    token={token}
                     consumed={consumed} 
                     consumedDate={consumedDate} 
                     setConsumed={setConsumed} 

@@ -1,12 +1,12 @@
 import Totals from "./Totals"
 import DailyMacros from "./DailyMacros"
 import { useEffect, useState } from "react"
-import consumedEventGenerator from "../utilities/generateEvent"
+import EventTemplateGenerator from "../utilities/generateEvent"
 import DateRange from './DateRange'
 
 const MacroDisplay = ({user, consumed, consumedDate, setConsumed, removeConsumedEntry, createConsumable, createConsumed}) => {
-    const [newConsumedEvent, setNewConsumedEvent] = useState(consumedEventGenerator.getEmptyConsumedEvent(user, new Date()))
-    const [selectedStartDate, setSelectedStartDate] = useState('')
+    const [newConsumedEvent, setNewConsumedEvent] = useState(EventTemplateGenerator.getEmptyConsumedEvent(user, new Date()))
+    const [selectedStartDate, setSelectedStartDate] = useState(new Date())
     const [selectedEndDate, setSelectedEndDate] = useState(null)
 
     useEffect(() => {

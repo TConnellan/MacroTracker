@@ -31,6 +31,7 @@ const authenticateJWT = (req, res, next) => {
 }
 
 const unknownEndpoint = (request, response) => {
+    logger.logInfo("unknown endpoint")
     response.status(404).send({ error: 'unknown endpoint' })
 }
   

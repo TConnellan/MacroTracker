@@ -6,6 +6,7 @@ const config = require('./utilities/config')
 const logger = require('./utilities/logger')
 const middleware = require('./utilities/middleware')
 const consumedRouter = require("./controllers/consumed")
+const consumableRouter = require("./controllers/consumables")
 const userRouter = require("./controllers/users")
 
 morgan.token('postData', function (req, res) {return JSON.stringify(req.body)})
@@ -21,6 +22,8 @@ app.use(middleware.requestLogger)
 
 app.use('/api/consumed', middleware.authenticateJWT)
 app.use('/api/consumed', consumedRouter)
+// app.use('/api/consumable/search', middleware.authenticateJWT)
+app.use('/api/consumable/', consumableRouter)
 app.use('/api/user', userRouter)
 
 

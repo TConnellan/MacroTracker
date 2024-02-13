@@ -1,7 +1,12 @@
+import RecipeForm from "./RecipeForm"
 
 
-const RecipeDisplay = () => {
-    return (<></>)
+const RecipeDisplay = ({token}) => {
+    return (
+        <>
+            <RecipeForm token={token}/>
+        </>
+    )
 }
 
 export default RecipeDisplay

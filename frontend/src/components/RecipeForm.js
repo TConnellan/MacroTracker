@@ -1,8 +1,9 @@
 import { useState } from "react"
 import RecipeComponentPanel from "./RecipeComponentPanel"
+import EventTemplateGenerator from "../utilities/generateEvent"
 
-const RecipeForm = () => {
-    const [recipeComponents, setRecipeComponents] = useState([])
+const RecipeForm = ({token}) => {
+    const [recipeComponents, setRecipeComponents] = useState([EventTemplateGenerator.getEmptyRecipeComponent()])
     return (
         <form onSubmit={() => {console.log("add recipe")}}>
             <h3>Add a Recipe</h3>
@@ -23,7 +24,8 @@ const RecipeForm = () => {
                            defaultValue={"notes needs State"} 
                            onChange={() => {console.log("notes needs update state")}} />         
                 </div>
-                <RecipeComponentPanel recipeComponents={recipeComponents}
+                <RecipeComponentPanel token={token}
+                                      recipeComponents={recipeComponents}
                                       setRecipeComponents={setRecipeComponents}/>
                 <button type="submit">Create Recipe</button>
             </div>
