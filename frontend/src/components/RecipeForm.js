@@ -5,7 +5,8 @@ import EventTemplateGenerator from "../utilities/generateEvent"
 const RecipeForm = ({token}) => {
     const [recipeComponents, setRecipeComponents] = useState([EventTemplateGenerator.getEmptyRecipeComponent()])
     return (
-        <form onSubmit={() => {console.log("add recipe")}}>
+        <>
+        <form onSubmit={(e) => {e.preventDefault() ;console.log("add recipe")}}>
             <h3>Add a Recipe</h3>
 
             <div>
@@ -23,13 +24,17 @@ const RecipeForm = ({token}) => {
                            name="notes" 
                            defaultValue={"notes needs State"} 
                            onChange={() => {console.log("notes needs update state")}} />         
+        
                 </div>
+                <button type="submit">Create Recipe</button>
+            </div>
+                </form>
+            <div>
                 <RecipeComponentPanel token={token}
                                       recipeComponents={recipeComponents}
                                       setRecipeComponents={setRecipeComponents}/>
-                <button type="submit">Create Recipe</button>
             </div>
-        </form>
+        </>
     )
 }
 

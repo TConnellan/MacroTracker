@@ -1,11 +1,12 @@
 
 import ConsumableForm from "./ConsumableForm"
-const NewConsumable = () => {
+const NewConsumable = ({onSubmit, cons, onChange, selectOnChange}) => {    
+
     return (
-        <></>
-    )
-    return (
-        <ConsumableForm />
+        <ConsumableForm onSubmit={onSubmit} 
+                        cons={cons}
+                        onChange={onChange} 
+                        selectOnChange={selectOnChange}/> 
     )
 }
 

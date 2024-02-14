@@ -8,10 +8,10 @@ const ConsumableForm = ({onSubmit, cons, onChange, selectOnChange}) => {
         <form onSubmit={onSubmit} className='Consumable-form'>
             <h3>Add a Base Component:</h3>
             <div>
-                Name: <input name={"name"} defaultValue = {cons.name} onChange={onChange}/>
+                Name: <input name={"cons_name"} defaultValue = {cons.cons_name} onChange={onChange}/>
             </div>
             <div>
-                Brand Name: <input name="brand" defaultValue = {cons.brand} onChange={onChange}/>
+                Brand Name: <input name="brand_name" defaultValue = {cons.brand_name} onChange={onChange}/>
             </div>
             <div>
                 Size: <input name="size" defaultValue = {cons.size} onChange={onChange}/>

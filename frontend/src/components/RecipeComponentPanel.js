@@ -41,12 +41,13 @@ const RecipeComponentPanel = ({recipeComponents, setRecipeComponents, token}) =>
                                          recipeStep={recipeStep}
                                          recipeComponents={recipeComponents}
                                          setRecipeComponents={setRecipeComponents}/>
-                    <button type="submit" >Save</button>
+                    
                 </div>
             {recipeStep == recipeComponents.length ? <button onClick={(event) => {event.preventDefault(); extendComponents()}}>{"+"}</button> : <button onClick={(event) => {event.preventDefault(); movePanel(1)}}>{">"}</button>}
         </div>
     )
 }
+// <button type="submit" >Save</button>
 
 
 export default RecipeComponentPanel
