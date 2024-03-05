@@ -1,9 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import RecipeComponentPanel from "./RecipeComponentPanel"
 import EventTemplateGenerator from "../utilities/generateEvent"
 
 const RecipeForm = ({token}) => {
-    const [recipeComponents, setRecipeComponents] = useState([EventTemplateGenerator.getEmptyRecipeComponent()])
+    const [recipeComponents, setRecipeComponents] = useState([EventTemplateGenerator.getConsumableWithRecipeComponent({}, 1, 0, '')])
+    
+    useEffect(() => {
+        console.log(recipeComponents)
+    }, [recipeComponents])
+    
     return (
         <>
         <form onSubmit={(e) => {e.preventDefault() ;console.log("add recipe")}}>
@@ -19,7 +24,7 @@ const RecipeForm = ({token}) => {
                            onChange={() => {console.log("recipe name needs update state")}} />         
                 </div>
                 <div>
-                    <label for="notes">Recipe Name:</label>
+                    <label for="notes">Notes:</label>
                     <input id="notes" 
                            name="notes" 
                            defaultValue={"notes needs State"} 

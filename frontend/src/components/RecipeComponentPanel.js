@@ -27,23 +27,40 @@ const RecipeComponentPanel = ({recipeComponents, setRecipeComponents, token}) =>
 
     const extendComponents = () => {
         setRecipeComponents(comps => {
-            return [...recipeComponents, EventTemplateGenerator.getEmptyRecipeComponent(comps.length + 1)]
+            return [...comps, EventTemplateGenerator.getConsumableWithRecipeComponent({}, comps.length + 1, 0, '')]
         })
+    }
+
+    const updateComponent = (step_no, consumable, quantity = 1) => {
+        // console.log(step_no)
+        // console.log(consumable)
+        setRecipeComponents(comps => {
+                const updated = comps.map(c => {
+                    if (c.step_no == step_no) {
+                        return EventTemplateGenerator.getConsumableWithRecipeComponent(consumable, step_no, quantity, '')
+                    } else {
+                        return c
+                    }
+                })
+                return updated
+        })
+
+        // console.log(recipeComponents)
     }
 
     // give classname which defines horizontal layout of buttons etc
     return (
         <div>
             <button onClick={(event) => {event.preventDefault(); movePanel(-1)}}>{"<"}</button>
+            {recipeStep == recipeComponents.length ? <button onClick={(event) => {event.preventDefault(); extendComponents()}}>{"+"}</button> : <button onClick={(event) => {event.preventDefault(); movePanel(1)}}>{">"}</button>}
                 <div>
                     <RecipeComponentForm token={token}
-                                         updateComponent={() => {console.log("need to update component")}}
+                                         updateComponent={updateComponent}
                                          recipeStep={recipeStep}
                                          recipeComponents={recipeComponents}
                                          setRecipeComponents={setRecipeComponents}/>
                     
                 </div>
-            {recipeStep == recipeComponents.length ? <button onClick={(event) => {event.preventDefault(); extendComponents()}}>{"+"}</button> : <button onClick={(event) => {event.preventDefault(); movePanel(1)}}>{">"}</button>}
         </div>
     )
 }
