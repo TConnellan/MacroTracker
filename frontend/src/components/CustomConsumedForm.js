@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 // Form for creating a custom consumed event, not saved as a consumable in the DB
-const ConsumedForm = ({handleChange, handleDate, consumed, submitCustomConsumed}) => {
+const CustomConsumedForm = ({handleChange, handleDate, consumed, submitCustomConsumed}) => {
     // const emptyConsumedEvent = {recipe:'', quantity: '', carbs: 0, proteins: 0, consumedAt: ''}
     return (
         <form onSubmit={submitCustomConsumed} className='Consumable-form'>
@@ -42,4 +42,4 @@ const ConsumedForm = ({handleChange, handleDate, consumed, submitCustomConsumed}
     )
 }
 
-export default ConsumedForm
+export default CustomConsumedForm

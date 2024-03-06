@@ -149,7 +149,5 @@ const App = () => {
     )
   }
 }
-//<SearchForm value = {searchValue} onChange={handleSearch} onSubmit = {submitSearch}/>
-//<Totals isLoggedIn = {loggedIn}/>
 
 export default App;

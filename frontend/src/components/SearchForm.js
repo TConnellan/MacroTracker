@@ -4,9 +4,9 @@ import Results from './Results'
 const SearchForm = ({value, onChange, onSubmit, results}) => (
     <div className="Search">
         <h2>Search for a food item:</h2>
-        <form>
+        <form onSubmit={onSubmit}>
             <input value={value} onChange = {onChange}/>
-            <button onClick={onSubmit}>Search</button>
+            <button type ="submit">Search</button>
         </form>
         <Results results = {[]} />
     </div>

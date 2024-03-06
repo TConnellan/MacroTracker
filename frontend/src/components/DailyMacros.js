@@ -2,7 +2,7 @@ import CreationForm from "./CreationForm"
 import Select from "react-select"
 import { useState } from "react"
 
-const DailyMacros = ({user, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
+const DailyMacros = ({user, token, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
     
     const options = [{label: "Add Custom Entry", value: "add custom"},
                      {label: "Add Entry from Recipe", value: "add recipe"}]
@@ -11,8 +11,8 @@ const DailyMacros = ({user, createConsumable, createConsumed, newConsumedEvent, 
 
     const handleChoice = (e) => {
         // e.preventDefault()
-        console.log("here")
-        console.log(e.value)
+        // console.log("here")
+        // console.log(e.value)
         setChoice(e.value)
     }
     return (
@@ -22,6 +22,7 @@ const DailyMacros = ({user, createConsumable, createConsumed, newConsumedEvent, 
                     options = {options} 
                     className="creationForm-Choice"/>
             <CreationForm user={user} 
+                          token={token}
                           choice={choice} 
                           createConsumable={createConsumable} 
                           createConsumed={createConsumed} 

@@ -37,4 +37,16 @@ const postNewConsumable = (data, token) => {
     return axios.post(`${baseUrl}${ext}`, data, {headers: {authorization: `Bearer ${token}`}})
 }
 
-export default {getAllConsumedByDate, postNewConsumable, postConsumedEvent, deleteConsumedEvent, getConsumableSearchResults}
+const postNewRecipe = (data, token) => {
+    const ext = `recipe/addrecipe`
+    return axios.post(`${baseUrl}${ext}`, data, {headers: {authorization: `Bearer ${token}`}})
+}
+
+const getRecipeSearchResults = (searchName, token) => {
+    const ext = `recipe/search/${searchName}`
+    return axios.get(`${baseUrl}${ext}`, {headers: {authorization: `Bearer ${token}`}})
+                .then(response => response.data)
+                .catch(error => {console.log(error);})
+}
+
+export default {getAllConsumedByDate, postNewConsumable, postConsumedEvent, deleteConsumedEvent, getConsumableSearchResults, postNewRecipe, getRecipeSearchResults}

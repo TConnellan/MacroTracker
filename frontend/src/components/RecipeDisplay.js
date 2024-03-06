@@ -1,10 +1,10 @@
 import RecipeForm from "./RecipeForm"
 
 
-const RecipeDisplay = ({token}) => {
+const RecipeDisplay = ({user, token}) => {
     return (
         <>
-            <RecipeForm token={token}/>
+            <RecipeForm token={token} user={user}/>
         </>
     )
 }

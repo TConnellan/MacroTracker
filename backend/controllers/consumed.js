@@ -1,23 +1,14 @@
 const consumedRouter = require("express").Router()
 const { pool } = require("./dbPool")
 const logger = require("../utilities/logger")
-
-
-const UNAUTHORISED_ACCESS = "Unauthorised to access this data"
-
-const respondUnauthorisedAccess = (response) => {
-    logger.logInfo("Unauthorised access attempt")
-    response.status(403)
-    response.send(UNAUTHORISED_ACCESS)
-}
-
+const standardResponses = require("../utilities/standardResponses")
 
 consumedRouter.get("/:userid&:date", (request, response) => {
 
     // check user is authenticated to access this
     if (request.authorised.id != request.params.userid) {
         console.log(request)
-        respondUnauthorisedAccess(response)
+        standardResponses.respondUnauthorisedAccess(response)
         return
     }
 
@@ -62,34 +53,34 @@ WHERE user_id = $1;
 })
 
 
-consumedRouter.post("/addconsumable", (request, response) => {
-    const data = request.body
-    logger.logInfo(request);
-    const values = [data.name,data.brand_name,data.size,data.units,data.carbs,data.fats,data.proteins]
-    const query=
-`
-INSERT into consumable(cons_name, brand_name, size, units, carbs, fats, proteins) values ($1,$2,$3,$4,$5,$6,$7);
-`
-    pool.connect()
-        .then(client => {
-            logger.logInfo("Made Connection")
-            return client.query(query, values)
-                        .then(resp => {
-                            response.status(201)
-                            // response.send(resp)
-                            response.json(resp)
-                            logger.logInfo("Query Successful")
-                        })
-                        .catch(err => logger.logError(`Error in query: ${err}`))
-                        .finally(() => {
-                            client.release()
-                            logger.logInfo("Client Released")
-                        })
-        })
-        .catch(err => {
-            logger.logError(`error connecting to db: ${err}`)
-        })
-})
+// consumedRouter.post("/addconsumable", (request, response) => {
+//     const data = request.body
+//     logger.logInfo(request);
+//     const values = [data.name,data.brand_name,data.size,data.units,data.carbs,data.fats,data.proteins]
+//     const query=
+// `
+// INSERT into consumable(cons_name, brand_name, size, units, carbs, fats, proteins) values ($1,$2,$3,$4,$5,$6,$7);
+// `
+//     pool.connect()
+//         .then(client => {
+//             logger.logInfo("Made Connection")
+//             return client.query(query, values)
+//                         .then(resp => {
+//                             response.status(201)
+//                             // response.send(resp)
+//                             response.json(resp)
+//                             logger.logInfo("Query Successful")
+//                         })
+//                         .catch(err => logger.logError(`Error in query: ${err}`))
+//                         .finally(() => {
+//                             client.release()
+//                             logger.logInfo("Client Released")
+//                         })
+//         })
+//         .catch(err => {
+//             logger.logError(`error connecting to db: ${err}`)
+//         })
+// })
 
 consumedRouter.post("/addconsumed", (request, response) => {
     const data = request.body
@@ -152,7 +143,7 @@ WHERE id=$1
                         return
                     } else if (resp.rows[0]["user_id"] != request.authorised.id) {
                         //not authorised
-                        respondUnauthorisedAccess(response)
+                        standardResponses.respondUnauthorisedAccess(response)
                         return
                     } else {
                         client.query(delete_query, [id])

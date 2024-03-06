@@ -1,16 +1,16 @@
-import ConsumedForm from './ConsumedForm'
+import CustomConsumedForm from './CustomConsumedForm'
 import ConsumableForm from './ConsumableForm'
 import RecipeForm from './RecipeForm'
 import DataValidation from '../utilities/dataValidation'
+import SearchForm from './SearchForm'
+import SearchRecipes from './SearchRecipes'
 
-const CreationForm = ({user, choice, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
+const CreationForm = ({user, token, choice, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
 
     const submitCustomConsumed = (e) => {
-        console.log(newConsumedEvent)
         e.preventDefault()
         try {
             const validatedConsumedEvent = DataValidation.validateConsumed(newConsumedEvent)
-            console.log("here")
             window.confirm("Add this event?")
             createConsumed(validatedConsumedEvent)
         } catch (e) {
@@ -20,15 +20,19 @@ const CreationForm = ({user, choice, createConsumable, createConsumed, newConsum
         
     }
 
-    // const handleCons = (e) => {
-    //     e.preventDefault()
-    //     console.log(e);
-    //     console.log(`name: ${e.target.name}`)
-    //     console.log(`value: ${e.target.value}`)
-    //     const newCons = {...cons, [e.target.name]: e.target.value}
-    //     console.log(newCons)
-    //     setCons(newCons)
-    // }
+    const submitConsumedFromRecipe = (e) => {
+        e.preventDefault()
+        try {
+            const validatedConsumedEvent = DataValidation.validateConsumed(newConsumedEvent)
+            // console.log("here")
+            window.confirm("Add this event?")
+            createConsumed(validatedConsumedEvent)
+        } catch (e) {
+            console.log(e)
+            window.alert(e)
+        }
+        
+    }
     
     const handleConsumed = (e) => {
         e.preventDefault()
@@ -44,39 +48,30 @@ const CreationForm = ({user, choice, createConsumable, createConsumed, newConsum
         setNewConsumedEvent(_newConsumedEvent)
     }
 
-    // const handleUnits = (e) => {
-        
-    //     console.log(e);
-    //     const newCons = {...cons, units: e.value}
-    //     console.log(newCons)
-    //     setCons(newCons)
-    // }
+    const loadConsumedFromRecipe = (newValues) => {
+        setNewConsumedEvent(current => {
+            return {...current, ...newValues}
+        })
+    }
+
     if (choice == 'consumable') {
         return (<></>)
-        // return (
-        //     <div id="CreationForm">
-        //         <ConsumableForm onSubmit={(e) => {
-        //             e.preventDefault(); 
-        //             if(window.confirm("Create this Consumable?")) {
-        //                 createConsumable(cons); 
-        //                 setCons({...emptyCons})
-        //             }}} 
-        //             cons={cons} 
-        //             onChange={handleCons} 
-        //             selectOnChange={handleUnits}/>
-        //     </div>
-        // )
-    } else if (choice == 'recipe') {
-        return <></>
-        // return (
-        //     <div id="CreationForm">
-        //         <RecipeForm onsubmit={() => console.log("submitting recipe form")} />
-        //     </div>
-        // )
+    } else if (choice == 'add recipe') {
+        return (
+            <div id="CreationForm">
+                <SearchRecipes token={token} 
+                               submitConsumedFromRecipe={submitConsumedFromRecipe} 
+                               consumed={newConsumedEvent}
+                               submitCustomConsumed={submitCustomConsumed}
+                               handleChange={handleConsumed} 
+                               handleDate={handleDate}
+                               loadConsumedFromRecipe={loadConsumedFromRecipe}/>
+            </div>
+        )
     } else if (choice == 'add custom') {
         return (
             <div id="CreationForm">
-                <ConsumedForm handleChange={handleConsumed} 
+                <CustomConsumedForm handleChange={handleConsumed} 
                               handleDate={handleDate}
                               consumed={newConsumedEvent} 
                               submitCustomConsumed={submitCustomConsumed}/>
