@@ -58,6 +58,15 @@ const App = () => {
   const createUser = (event) => {
     event.preventDefault()
     userServices.postNewUser({username: user, password: pass})
+                .then(resp => {
+                  // successfully create user,
+                  setPass('')
+                  setToken(resp.data.token)
+                  setUserId(resp.data.id)
+                  setUser(resp.data.username)
+                  setLoggedIn(true)
+                })
+                .catch
 
   }
 

@@ -39,7 +39,6 @@ WHERE username = $1;`
                             // check hash
                             queryData = resp.rows[0] 
                             logger.logInfo("Retrieved account info")
-                            // hash = Buffer.from(queryData["password_hash"], 'binary').toString()
                             hash = queryData["password_hash"]
                             console.log(hash)
                             console.log(password)
@@ -53,9 +52,7 @@ WHERE username = $1;`
                                         logger.logInfo("Hashes Match")
                                         response.status(200)
                                         // send id for now now before something better is implemented
-                                        // const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME })
                                         const token = jwt.sign({ id, username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME })
-                                        // response.send({id: queryData["id"], username: queryData["username"]})
                                         response.json({ token, id, username })
                                     } else {
                                         console.log("hashes not equal");
@@ -95,28 +92,27 @@ WHERE username = $1;
     const insertQuery = 
 `
 INSERT INTO user_profile(username, password_hash, salt) 
-VALUES ($1, $2, $3);
+VALUES ($1, $2, $3)
+RETURNING id;
 `
 
-    // I don't like the nested promise chain
-    // want to see if i can refactor by just returning the query straight up and continuing the chain like that
+    // I don't like the nested promise chain look into making it better
     pool.connect()
         .then(client => {
               client.query(existenceQuery, [username])
-                    .then(resp => {
-                        if (resp.rows.length == 0) {
+                    .then(existenceResp => {
+                        if (existenceResp.rows.length == 0) {
                             // create user
-                            //generate salt
+                            // generate salt
                             const newSalt = crypto.randomBytes(16).toString('hex')
-                            // bcrypt.hash(password + newSalt, 10)
                             bcrypt.hash(password, 10)
                                 .then( hash => {
-                                    // const hexSaltedHash = Buffer.from(hash, 'binary').toString('hex')
-
                                     client.query(insertQuery, [username, hash, newSalt])
                                         .then(resp => {
                                             response.status(201)
-                                            response.send(resp)
+                                            const id = resp.rows[0]["id"]
+                                            const token = jwt.sign({ id, username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME })
+                                            response.json({id, username, token})
                                         })
                                 })
                         } else {

@@ -1,6 +1,5 @@
-import userServices from '../services/user'
 
-const NewUser = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount, createUser}) => {
+const NewUser = ({user, handleUser, pass, handlePass, toggleCreateAccount, createUser}) => {
 	
 	
     return (
