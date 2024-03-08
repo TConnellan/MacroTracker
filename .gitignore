@@ -1,5 +1,3 @@
-db.dbml
-backend/dbpop.sql
-backend/dbselect.sql
+backend/sql/local*
 node_modules
 .env

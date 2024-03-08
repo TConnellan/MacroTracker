@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.817e2a7f.css",
-    "main.js": "/static/js/main.c82827c3.js",
+    "main.css": "/static/css/main.a85d2bbb.css",
+    "main.js": "/static/js/main.81bcf1c0.js",
     "static/media/bread_logo_transparent.png": "/static/media/bread_logo_transparent.f4cb2c2ecc0292803f28.png",
     "index.html": "/index.html",
-    "main.817e2a7f.css.map": "/static/css/main.817e2a7f.css.map",
-    "main.c82827c3.js.map": "/static/js/main.c82827c3.js.map"
+    "main.a85d2bbb.css.map": "/static/css/main.a85d2bbb.css.map",
+    "main.81bcf1c0.js.map": "/static/js/main.81bcf1c0.js.map"
   },
   "entrypoints": [
-    "static/css/main.817e2a7f.css",
-    "static/js/main.c82827c3.js"
+    "static/css/main.a85d2bbb.css",
+    "static/js/main.81bcf1c0.js"
   ]
 }

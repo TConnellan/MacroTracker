@@ -70,20 +70,14 @@ LIMIT 10;
                     const used = {}
                     for (const row of resp.rows){
                         if (row.id in used) {
-                            logger.logInfo("here1")
-                            // console.log(row.id)
-                            // console.log(output)
-                            // console.log(used)
-                            // console.log(output[1].components)
                             output[used[row.id]].components.push({step_no: row.step_no, step_description: row.step_description, cons_name: row.cons_name, brand_name: row.brand_name, carbs: row.carbs, proteins: row.proteins, fats: row.fats, quantity: row.quantity})
                         } else {
-                            logger.logInfo("here2")
                             const curr = {}
                             const rowId = row.id
-                            curr.id ??= rowId
-                            curr.recipe_name ??= row.recipe_name
-                            curr.notes ??= row.notes
-                            curr.components ??= []
+                            curr.id = rowId
+                            curr.recipe_name = row.recipe_name
+                            curr.notes = row.notes
+                            curr.components = []
                             curr.components.push({step_no: row.step_no, step_description: row.step_description, cons_name: row.cons_name, brand_name: row.brand_name, carbs: row.carbs, proteins: row.proteins, fats: row.fats, quantity: row.quantity})
                             output.push(curr)
                             used[rowId] = (output.length - 1).toString()

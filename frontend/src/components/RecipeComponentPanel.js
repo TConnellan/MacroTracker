@@ -35,13 +35,18 @@ const RecipeComponentPanel = ({recipeComponents, setRecipeComponents, token}) =>
         // console.log(step_no)
         // console.log(consumable)
         setRecipeComponents(comps => {
+                console.log("-----")
+                console.log(consumable)
                 const updated = comps.map(c => {
+                    console.log(step_no)
+                    console.log(c.step_no)
                     if (c.step_no == step_no) {
                         return EventTemplateGenerator.getConsumableWithRecipeComponent(consumable, step_no, quantity, '')
                     } else {
                         return c
                     }
                 })
+                console.log(updated)
                 return updated
         })
 

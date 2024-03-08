@@ -10,7 +10,7 @@ const consumableRouter = require("./controllers/consumables")
 const userRouter = require("./controllers/users")
 const recipeRouter = require("./controllers/recipes")
 
-morgan.token('postData', function (req, res) {return JSON.stringify(req.body)})
+morgan.token('postData', function (req, res) {return ""})
 
 const app = express()
 app.use(cors()) // enable...

@@ -48,7 +48,14 @@ input {
   display: block;
 }
 
-
+#recipeDisplay {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  align-items: center;
+}
 
 .Sidebar-button {
   width: 100%;

@@ -6,9 +6,17 @@
 const ConsumableSearchResult = ({result, chooseResult}) => {
 
     return  (
-         <div>
-            {result.cons_name} | {result.brand_name} | C/F/P: {result.carbs}/{result.fats}/{result.proteins} | {result.size}{result.units} | <button onClick={event => {event.preventDefault(); chooseResult(result)}}>choose</button>
-         </div>
+      <tr>
+         <td>{result.cons_name}</td>
+         <td>{result.brand_name}</td>
+         <td>C:{result.carbs}</td> 
+         <td>F:{result.fats}</td>
+         <td>P:{result.proteins}</td>
+         <td>{result.size}{result.units}</td>
+         <td>
+            <button onClick={event => {event.preventDefault(); chooseResult(result)}}>choose</button>
+         </td>
+      </tr>
         )
 }
 

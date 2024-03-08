@@ -62,9 +62,9 @@ const SearchRecipes = ({token, submitConsumedFromRecipe, consumed, submitCustomC
             <div>
                 <SearchForm value={searchText} onChange={updateSearch} onSubmit={submitSearch}/>
             </div>
-            <div>
+            <table>
                 {searchResults.map(result => <RecipeSearchResult result={result} chooseResult={chooseResult}/>)}
-            </div>
+            </table>
         </>
     )
 }

@@ -11,7 +11,8 @@ const RecipeConsumedForm = ({handleChange, handleDate, consumed, submitCustomCon
     
     return (
         <form onSubmit={submitCustomConsumed} className='Consumable-form'>
-            <h3>Creating from recipe: {consumed.recipe_name}</h3>
+            <h3>Creating from recipe:</h3>
+            <div>Recipe: {consumed.recipe_name}</div>
             <div> 
                 Carbs: {computeActualGrams(consumed.carbs, consumed.quantity)}g
             </div>

@@ -49,49 +49,27 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
     const handleCreate = (event) => {
         event.preventDefault()
         const _newConsumable = {...newConsumable, [event.target.name] : event.target.value}
-        console.log(_newConsumable)
+        // console.log(_newConsumable)
         setNewConsumable(_newConsumable)
     }
 
     const handleUnits = (event) => {
-        console.log(event);
+        // console.log(event);
         const _newConsumable = {...newConsumable, units: event.value}
-        console.log(_newConsumable)
+        // console.log(_newConsumable)
         setNewConsumable(_newConsumable)
     }
 
     const addNewConsumable = (event) => {
-        // console.log("here1")
         event.preventDefault()
-        // console.log("here2")
         consumedServices.postNewConsumable(newConsumable, token)
             .then(resp => {
-                // get the id of the new consumable from the response
-                // and record  it at the current recipe step
-                // console.log(resp)
-                const newId = resp.data.rows[0].id
-                console.log(newId)
-                const newComps = recipeComponents.map((comp) => {
-                    if (comp.step_no == recipeStep) {
-                        return {...comp, component_id: newId}
-                    } else {
-                        return {...comp}
-                    }
-                })
-                console.log(newComps)
-                // setRecipeComponents((comps) => {comps.map((comp) => {
-                //     if (comp.step_no == recipeStep) {
-                //         return {...comp, component_id: newId}
-                //     } else {
-                //         return {...comp}
-                //     }
-                // })})
+                const newComp = {...newConsumable, component_id: resp.data.rows[0].id}
+                updateComponent(recipeStep, newComp)
             })
             .catch(err => {
-                // error logic
                 console.log(err)
             })
-        // get the id of the 
     }
 
     const chooseResult = (result) => {
@@ -112,8 +90,8 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
 
     return (
         <>
-        <div>Step: {recipeStep}</div>
-        {recipeComponents[recipeStep - 1].cons_name != "" ?
+        <h4>Step: {recipeStep}</h4>
+        {recipeComponents[recipeStep - 1].cons_name != "" || true ?
         <>
             <div>
                 Name: {recipeComponents[recipeStep - 1].cons_name}
@@ -122,7 +100,7 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
             <div>
                 Size: {recipeComponents[recipeStep - 1].size}{recipeComponents[recipeStep - 1].units}
             </div>
-                Quantity: <input name={"quantity"} defaultValue = {recipeComponents[recipeStep - 1].quantity} onChange={configureComponent}/>
+                Quantity: <input name={"quantity"} value = {recipeComponents[recipeStep - 1].quantity} onChange={configureComponent}/>
             <div>
                 Carbs: {recipeComponents[recipeStep - 1].carbs} ({computeActualGrams(recipeComponents[recipeStep - 1].carbs, recipeComponents[recipeStep - 1].quantity)})
             </div>
@@ -136,33 +114,32 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
                 KiloJoules: {computeActualGrams(macroCalculations.calculateKilojoules(recipeComponents[recipeStep - 1].carbs, recipeComponents[recipeStep - 1].fats, recipeComponents[recipeStep - 1].proteins), 1)} ({computeActualGrams(macroCalculations.calculateKilojoules(recipeComponents[recipeStep - 1].carbs, recipeComponents[recipeStep - 1].fats, recipeComponents[recipeStep - 1].proteins), recipeComponents[recipeStep - 1].quantity)})   
             </div>
             <div>
-                Description: <input name={"step_description"} defaultValue = {recipeComponents[recipeStep - 1].step_description} onChange={configureComponent}/>
+                Description: <input name={"step_description"} value = {recipeComponents[recipeStep - 1].step_description} onChange={configureComponent}/>
             </div>
         </> : <></>}
             <div>
                 <button onClick={event => toggleSearch(event)}>Search Existing</button>
-            </div>
-            <div>
                 <button onClick={event => toggleCreate(event)}>Create new</button>
             </div>    
             <div>
-            {searchExisting ? <><div><SearchForm value={searchText}
-                                          onChange={handleSearch}
-                                          onSubmit={getSearchResults}
-                                          results={searchResults}
-                                          /> 
+            {searchExisting ?   <><div>
+                                    <SearchForm value={searchText}
+                                            onChange={handleSearch}
+                                            onSubmit={getSearchResults}
+                                            results={searchResults}
+                                            />
                                 </div>
-                              <div>
-                                {searchResults.map(result => <ConsumableSearchResult result={result} chooseResult={chooseResult}/>)}
-                              </div>
-                                          </>
-                                          : <></>
-                                          }
-            {createNew ? <NewConsumable onSubmit={addNewConsumable} 
+                                <table>
+                                    {searchResults.map(result => <ConsumableSearchResult result={result} chooseResult={chooseResult}/>)}
+                                </table>    
+                                </> : <></>}
+            {createNew ? <div>
+                            <NewConsumable onSubmit={addNewConsumable} 
                                         cons={newConsumable}
                                         onChange={handleCreate} 
                                         selectOnChange={handleUnits}
-                                        /> : <></>}
+                                        /> 
+                                        </div>: <></>}
             </div>
         </>
     )

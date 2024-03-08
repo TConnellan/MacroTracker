@@ -2,9 +2,10 @@
 
 const RecipeSearchResult = ({result, chooseResult}) => {
     return (
-        <div>
-            {result.recipe_name} | <button onClick={(event) => chooseResult(event, result)}>choose</button>
-        </div>
+        <tr>
+            <td>{result.recipe_name}</td>
+            <td><button onClick={(event) => chooseResult(event, result)}>choose</button></td>
+        </tr>
     )
 }
 
