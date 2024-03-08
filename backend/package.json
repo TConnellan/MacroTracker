@@ -12,7 +12,7 @@
     "prod:logs": "fly logs",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "gh-actions:deploy:full": "npm run build:ui && npm run fly deploy --remote-only"
+    "gh-actions:deploy:full": "npm run build:ui && fly deploy --remote-only"
   },
   "author": "TConnellan",
   "license": "MIT",
