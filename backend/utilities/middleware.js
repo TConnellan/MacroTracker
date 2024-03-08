@@ -4,20 +4,20 @@ const jwt = require("jsonwebtoken")
 const requestLogger = (request, response, next) => {
   logger.logInfo('Method:', request.method)
   logger.logInfo('Path:  ', request.path)
-  logger.logInfo('Body:  ', request.body)
+  // logger.logInfo('Body:  ', request.body)
   logger.logInfo('---')
   next()
 }
 
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1] // header of form Authorization: Bearer <token>
+  const token = authHeader && authHeader.split(' ')[1] 
   if (!token) {
     console.log("HERE");
     return res.status(401).json({ message: 'No token provided' })
   }
-  // console.log(process.env.JWT_SECRET);
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => { // process.env.SECRET_KEY
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => { 
     if (err) {
       console.log(err)
       return res.status(403).json({ message: 'Invalid token' });
