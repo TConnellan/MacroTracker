@@ -66,8 +66,13 @@ const App = () => {
                   setUser(resp.data.username)
                   setLoggedIn(true)
                 })
-                .catch
-
+                .catch(err => {
+                  if (err.response.status == 409) {
+                    alert("Username already exists, please pick another")
+                  } else if (err.response.status == 403) {
+                    alert("There was a problem creating your account, please try again later")
+                  }        
+                })
   }
 
   const doLogin = (event) => {

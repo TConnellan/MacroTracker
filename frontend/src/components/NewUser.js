@@ -8,11 +8,11 @@ const NewUser = ({user, handleUser, pass, handlePass, toggleCreateAccount, creat
                 <h3>Create new account</h3>
                 <div>
                 <label for="username">Username:</label>
-                    <input id="username" name="username" defaultValue={user} onChange={handleUser} />
+                    <input id="username" name="username" maxlength="20" defaultValue={user} onChange={handleUser} />
                 </div>
                 <div>
                 <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" defaultValue={pass} onChange={handlePass} />
+                    <input type="password" id="password" name="password" maxlength="100" defaultValue={pass} onChange={handlePass} />
                 </div>
                 <div className="Login-button">
                     <button type="submit" onClick = {createUser}>Create Account</button>
