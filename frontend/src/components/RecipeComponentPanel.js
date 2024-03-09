@@ -4,7 +4,7 @@ import EventTemplateGenerator from "../utilities/generateEvent"
 
 
 
-const RecipeComponentPanel = ({recipeComponents, setRecipeComponents, token}) => {
+const RecipeComponentPanel = ({recipeComponents, setRecipeComponents}) => {
     const [recipeStep, setRecipeStep] = useState(1)
 
 
@@ -59,8 +59,7 @@ const RecipeComponentPanel = ({recipeComponents, setRecipeComponents, token}) =>
             <button onClick={(event) => {event.preventDefault(); movePanel(-1)}}>{"<"}</button>
             {recipeStep == recipeComponents.length ? <button onClick={(event) => {event.preventDefault(); extendComponents()}}>{"+"}</button> : <button onClick={(event) => {event.preventDefault(); movePanel(1)}}>{">"}</button>}
                 <div>
-                    <RecipeComponentForm token={token}
-                                         updateComponent={updateComponent}
+                    <RecipeComponentForm updateComponent={updateComponent}
                                          recipeStep={recipeStep}
                                          recipeComponents={recipeComponents}
                                          setRecipeComponents={setRecipeComponents}/>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import EventTemplateGenerator from "../utilities/generateEvent"
 import DateRange from './DateRange'
 
-const MacroDisplay = ({user, token, consumed, consumedDate, setConsumed, removeConsumedEntry, createConsumable, createConsumed}) => {
+const MacroDisplay = ({user, consumed, consumedDate, setConsumed, removeConsumedEntry, createConsumable, createConsumed}) => {
     const [newConsumedEvent, setNewConsumedEvent] = useState(EventTemplateGenerator.getEmptyConsumedEvent(user, new Date()))
     const [selectedStartDate, setSelectedStartDate] = useState(new Date())
     const [selectedEndDate, setSelectedEndDate] = useState(null)
@@ -36,8 +36,7 @@ const MacroDisplay = ({user, token, consumed, consumedDate, setConsumed, removeC
                         endDate={selectedEndDate}/>
             </div>
             <div className="Consumable-form">
-                <DailyMacros user = {user} 
-                                token = {token}
+                <DailyMacros user = {user}
                                 createConsumable ={createConsumable} 
                                 createConsumed={createConsumed} 
                                 newConsumedEvent={newConsumedEvent} 

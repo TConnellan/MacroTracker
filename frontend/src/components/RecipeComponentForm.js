@@ -6,7 +6,7 @@ import EventTemplateGenerator from "../utilities/generateEvent"
 import ConsumableSearchResult from "./ConsumableSearchResult"
 import macroCalculations from "../utilities/macroCalculations"
 
-const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, setRecipeComponents, token}) => {
+const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, setRecipeComponents}) => {
     const [searchExisting, setSearchExisting] = useState(false)
     const [createNew, setCreateNew] = useState(false)
     const [searchText, setSearchText] = useState("")
@@ -29,7 +29,7 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
         if (searchText.trim() == "") {
             return 
         }
-        consumedServices.getConsumableSearchResults(searchText, token)
+        consumedServices.getConsumableSearchResults(searchText)
                         .then(data => {
                             console.log(data)
                             setSearchResults(data)
@@ -62,7 +62,7 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
 
     const addNewConsumable = (event) => {
         event.preventDefault()
-        consumedServices.postNewConsumable(newConsumable, token)
+        consumedServices.postNewConsumable(newConsumable)
             .then(resp => {
                 const newComp = {...newConsumable, component_id: resp.data.rows[0].id}
                 updateComponent(recipeStep, newComp)

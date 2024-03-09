@@ -8,6 +8,11 @@ const jwt = require("jsonwebtoken")
 const AUTHORISATION_FAILED = "Username or password was incorrect."
 const USERNAME_EXISTS = "Username already exists"
 
+const setJWT = (resp, id, username) => {
+    const token = jwt.sign({ id, username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME })
+    resp.cookie('jwt_token', token, {httpOnly: true, maxAge: 1800000})
+}
+
 const respondAuthorisationFailed = (response) => {
     logger.logInfo("Authorisation Failed")
     response.status(401)
@@ -52,8 +57,9 @@ WHERE username = $1;`
                                         logger.logInfo("Hashes Match")
                                         response.status(200)
                                         // send id for now now before something better is implemented
-                                        const token = jwt.sign({ id, username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME })
-                                        response.json({ token, id, username })
+                                        // const token = jwt.sign({ id, username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME })
+                                        setJWT(response, id, username)
+                                        response.json({id, username})
                                     } else {
                                         console.log("hashes not equal");
                                         respondAuthorisationFailed(response) 
@@ -111,8 +117,9 @@ RETURNING id;
                                         .then(resp => {
                                             response.status(201)
                                             const id = resp.rows[0]["id"]
-                                            const token = jwt.sign({ id, username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME })
-                                            response.json({id, username, token})
+                                            // const token = jwt.sign({ id, username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME })
+                                            setJWT(response, id, username)
+                                            response.json({id, username})
                                         })
                                 })
                         } else {
@@ -130,6 +137,12 @@ RETURNING id;
         })
 })
 
-
+userRouter.post("/verify", (request, response) => {
+    // the app routes this path throught the JWT auth middleware
+    // if it failed authentification then that middleware will return unauthorised
+    // so if we make it here we can immediately return ok
+    
+    response.status(200).json({message: 'Authorised', id: request.authorised.id, username: request.authorised.username})
+})
 
 module.exports = userRouter

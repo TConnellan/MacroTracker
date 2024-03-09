@@ -4,47 +4,47 @@ const baseUrl = "/api/"
 
 
 
-const getAllConsumedByDate = (user, date, token) => {
+const getAllConsumedByDate = (user, date) => {
     const ext = `consumed/${user}&${date}`
-    return axios.get(`${baseUrl}${ext}`, {headers: {authorization: `Bearer ${token}`}})
+    return axios.get(`${baseUrl}${ext}`)
         .then(response => response.data)
         .catch(error => {console.log(error);})
 
 }
 
-const postConsumedEvent = (data, token) => {
+const postConsumedEvent = (data) => {
     const ext = `consumed/addconsumed`
     // data.headers = {...data.headers, authorization: `Bearer ${token}`}
-    return axios.post(`${baseUrl}${ext}`, data, {headers: {authorization: `Bearer ${token}`}})
+    return axios.post(`${baseUrl}${ext}`, data)
 }
 
-const deleteConsumedEvent = (id, token) => {
+const deleteConsumedEvent = (id) => {
     const ext = `consumed/${id}`
-    return axios.delete(`${baseUrl}${ext}`, {headers: {authorization: `Bearer ${token}`}})
+    return axios.delete(`${baseUrl}${ext}`)
 
 }
 
-const getConsumableSearchResults = (searchName, token) => {
+const getConsumableSearchResults = (searchName) => {
     const ext = `consumable/search/${searchName}`
-    return axios.get(`${baseUrl}${ext}`, {headers: {authorization: `Bearer ${token}`}})
+    return axios.get(`${baseUrl}${ext}`)
                 .then(response => response.data)
                 .catch(error => {console.log(error);})
 }
 
-const postNewConsumable = (data, token) => {
+const postNewConsumable = (data) => {
     const ext  = `consumable/addconsumable`
     // data.headers = {authorization: `Bearer ${token}`}
-    return axios.post(`${baseUrl}${ext}`, data, {headers: {authorization: `Bearer ${token}`}})
+    return axios.post(`${baseUrl}${ext}`, data)
 }
 
-const postNewRecipe = (data, token) => {
+const postNewRecipe = (data) => {
     const ext = `recipe/addrecipe`
-    return axios.post(`${baseUrl}${ext}`, data, {headers: {authorization: `Bearer ${token}`}})
+    return axios.post(`${baseUrl}${ext}`, data)
 }
 
-const getRecipeSearchResults = (searchName, token) => {
+const getRecipeSearchResults = (searchName) => {
     const ext = `recipe/search/${searchName}`
-    return axios.get(`${baseUrl}${ext}`, {headers: {authorization: `Bearer ${token}`}})
+    return axios.get(`${baseUrl}${ext}`)
                 .then(response => response.data)
                 .catch(error => {console.log(error);})
 }

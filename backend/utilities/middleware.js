@@ -10,17 +10,17 @@ const requestLogger = (request, response, next) => {
 }
 
 const authenticateJWT = (req, res, next) => {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1] 
+
+  const token = req.cookies.jwt_token 
+
   if (!token) {
-    console.log("HERE");
     return res.status(401).json({ message: 'No token provided' })
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => { 
     if (err) {
       console.log(err)
-      return res.status(403).json({ message: 'Invalid token' });
+      return res.status(401).json({ message: 'Invalid token' });
     }
 
     // Add the decoded user information to the request object
@@ -39,7 +39,7 @@ const errorHandler = (error, request, response, next) => {
     logger.logError(error.message)
   
     if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
+      return response.status(400).send({ error: 'malformed id' })
     } else if (error.name === 'ValidationError') {
       return response.status(400).json({ error: error.message })
     }

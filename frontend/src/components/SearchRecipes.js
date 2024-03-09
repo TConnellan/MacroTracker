@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import RecipeConsumedForm from "./RecipeConsumedForm";
 
 
-const SearchRecipes = ({token, submitConsumedFromRecipe, consumed, submitCustomConsumed, handleChange, handleDate, loadConsumedFromRecipe}) => {
+const SearchRecipes = ({submitConsumedFromRecipe, consumed, submitCustomConsumed, handleChange, handleDate, loadConsumedFromRecipe}) => {
     const [searchText, setSearchText] = useState('')
     const [searchResults, setSearchResults] = useState([])
     const [selectedRecipe, setSelectedRecipe] = useState(false)
@@ -20,7 +20,7 @@ const SearchRecipes = ({token, submitConsumedFromRecipe, consumed, submitCustomC
         if (searchText.trim() == "") {
             return 
         }
-        consumedServices.getRecipeSearchResults(searchText, token)
+        consumedServices.getRecipeSearchResults(searchText)
                         .then(data => {
                             console.log(data)
                             setSearchResults(data)

@@ -5,7 +5,7 @@ import DataValidation from '../utilities/dataValidation'
 import SearchForm from './SearchForm'
 import SearchRecipes from './SearchRecipes'
 
-const CreationForm = ({user, token, choice, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
+const CreationForm = ({user, choice, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
 
     const submitCustomConsumed = (e) => {
         e.preventDefault()
@@ -59,8 +59,7 @@ const CreationForm = ({user, token, choice, createConsumable, createConsumed, ne
     } else if (choice == 'add recipe') {
         return (
             <div id="CreationForm">
-                <SearchRecipes token={token} 
-                               submitConsumedFromRecipe={submitConsumedFromRecipe} 
+                <SearchRecipes submitConsumedFromRecipe={submitConsumedFromRecipe} 
                                consumed={newConsumedEvent}
                                submitCustomConsumed={submitCustomConsumed}
                                handleChange={handleConsumed} 

@@ -16,4 +16,9 @@ const loginUser = ({username, password}) => {
     return axios.post(`${baseUrl}${ext}`, data)
 }
 
-export default {postNewUser, loginUser}
+const verifyLoggedIn = () => {
+    const ext = "user/verify"
+    return axios.post(`${baseUrl}${ext}`)
+}
+
+export default {postNewUser, loginUser, verifyLoggedIn}

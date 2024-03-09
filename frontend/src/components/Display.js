@@ -3,13 +3,12 @@ import MacroDisplay from "./MacroDisplay"
 import RecipeDisplay from "./RecipeDisplay"
 import PantryDisplay from "./PantryDisplay"
 
-const Display = ({sidebarChoice, user, consumed, consumedDate, setConsumed, removeConsumedEntry, createConsumable, createConsumed, token}) => {
+const Display = ({sidebarChoice, user, consumed, consumedDate, setConsumed, removeConsumedEntry, createConsumable, createConsumed}) => {
 
     switch (sidebarChoice) {
         case "Macros":
             return (
                 <MacroDisplay user={user}
-                            token={token}
                             consumed={consumed} 
                             consumedDate={consumedDate} 
                             setConsumed={setConsumed} 
@@ -20,7 +19,6 @@ const Display = ({sidebarChoice, user, consumed, consumedDate, setConsumed, remo
         case "Recipes":
             return (
                 <RecipeDisplay user={user}
-                            token={token}
                             consumed={consumed} 
                             consumedDate={consumedDate} 
                             setConsumed={setConsumed} 
@@ -30,8 +28,7 @@ const Display = ({sidebarChoice, user, consumed, consumedDate, setConsumed, remo
                 )
         case "Pantry":
             return (
-                <PantryDisplay user={user} 
-                            token={token}
+                <PantryDisplay user={user}
                             consumed={consumed} 
                             consumedDate={consumedDate} 
                             setConsumed={setConsumed} 

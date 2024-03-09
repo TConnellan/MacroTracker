@@ -4,7 +4,7 @@ import EventTemplateGenerator from "../utilities/generateEvent"
 import consumedServices from "../services/consumed"
 import RecipeSummary from "./RecipeSummary"
 
-const RecipeForm = ({user, token}) => {
+const RecipeForm = ({user}) => {
     const [recipeComponents, setRecipeComponents] = useState([EventTemplateGenerator.getConsumableWithRecipeComponent({}, 1, 0, '')])
     const [recipeName, setRecipeName] = useState('')
     const [recipeNotes, setRecipeNotes] = useState('')
@@ -24,7 +24,7 @@ const RecipeForm = ({user, token}) => {
                       recipeComponents: recipeComponents
         }
 
-        consumedServices.postNewRecipe(data, token)
+        consumedServices.postNewRecipe(data)
                         .then(resp => {
                             console.log("check response here, resp was:")
                             console.log(resp)
@@ -62,8 +62,7 @@ const RecipeForm = ({user, token}) => {
                 </div>
                     </form>
                 <div>
-                    <RecipeComponentPanel token={token}
-                                        recipeComponents={recipeComponents}
+                    <RecipeComponentPanel recipeComponents={recipeComponents}
                                         setRecipeComponents={setRecipeComponents}/>
                 </div>
 

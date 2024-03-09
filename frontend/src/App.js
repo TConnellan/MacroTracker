@@ -15,12 +15,33 @@ const App = () => {
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
-  const [token, setToken] = useState('')
+  const [tokenChecked, setTokenChecked] = useState(false)
   const [consumed, setConsumed] = useState([])
   const [consumedDate, setConsumedDate] = useState('')
   const [updateConsumed, setUpdateConsumed] = useState(false)
   const [sidebarChoice, setSidebarChoice] = useState("Macros")
 
+  useEffect(() => {
+    userServices.verifyLoggedIn()
+                .then(resp => {
+                  if (resp.status === 200) {
+                    setPass('')
+                    setUserId(resp.data.id)
+                    setUser(resp.data.username)
+                    setLoggedIn(true)
+                    setUpdateConsumed(!updateConsumed)
+                  } else if (resp.status === 500) {
+                    console.log("There was an issue verifying authorisation")
+                  }
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+                .finally(() => {
+                  setTokenChecked(true)
+                })
+    
+  }, [])
 
   useEffect(() => {
     document.title = "MacroTracker"
@@ -32,7 +53,9 @@ const App = () => {
   }, [])
   
   useEffect(() => {
-    console.log(`Set todays date: ${consumedDate}`)
+    if (consumedDate.toString() != '') {
+      console.log(`Set todays date: ${consumedDate}`)
+    }
   }, [consumedDate])
 
   const handleUser = (event) => {
@@ -46,7 +69,6 @@ const App = () => {
   }
 
   const handleSearch = (event) => {
-    //console.log("updating search value", event.target.value.toLowerCase())
     setSearchValue(event.target.value.toLowerCase())
   }
 
@@ -59,9 +81,8 @@ const App = () => {
     event.preventDefault()
     userServices.postNewUser({username: user, password: pass})
                 .then(resp => {
-                  // successfully create user,
+                  // successfully created user
                   setPass('')
-                  setToken(resp.data.token)
                   setUserId(resp.data.id)
                   setUser(resp.data.username)
                   setLoggedIn(true)
@@ -81,11 +102,12 @@ const App = () => {
     userServices.loginUser({username: user, password: pass})
       .then(resp => {
         setPass('')
-        setToken(resp.data.token)
         setLoggedIn(true)
         setUserId(resp.data.id)
         setUser(resp.data.username)
         setUpdateConsumed(!updateConsumed)
+        const cookies = document.cookie.split(';');
+        console.log(cookies)
       })
       .catch(resp => {
         // actually handle it here
@@ -94,7 +116,7 @@ const App = () => {
   }
 
   const submitConsumed = (data) => {
-    consumedServices.postConsumedEvent({...data, user_id: userId}, token)
+    consumedServices.postConsumedEvent({...data, user_id: userId})
       .then(() => toggleUpdateConsumed()) // Not ideal maybe, whole request to get new consumed when we could update the state based on response
   }
 
@@ -104,15 +126,14 @@ const App = () => {
   }
 
   const removeConsumedEntry = (id) => {
-    consumedServices.deleteConsumedEvent(id, token)
+    consumedServices.deleteConsumedEvent(id)
         .then(setConsumed(prevCons => prevCons.filter(cons => cons.id != id)))
     // might want to always remove from local list anyway
 }
 
   useEffect(() => {
-    console.log("use effect toggling")
     if (userId) {
-      consumedServices.getAllConsumedByDate(userId, consumedDate, token)
+      consumedServices.getAllConsumedByDate(userId, consumedDate)
         .then(initialData => {
           setConsumed(initialData)
         })
@@ -125,7 +146,10 @@ const App = () => {
       toggleUpdateConsumed()
     }
   }
-    
+  
+  if (!tokenChecked) {
+    return (<></>)
+  }
   if (loggedIn) {
     return (
       <div className="App">
@@ -137,7 +161,6 @@ const App = () => {
           <div id="display">
             <Display sidebarChoice={sidebarChoice} 
                     user={user} 
-                    token={token}
                     consumed={consumed} 
                     consumedDate={consumedDate} 
                     setConsumed={setConsumed} 
