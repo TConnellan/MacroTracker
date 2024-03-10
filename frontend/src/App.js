@@ -155,19 +155,15 @@ const App = () => {
       <div className="App">
         <Header logo = {bread}/>
         <div id="Container">
-          <div id="Sidebar">
-            <Sidebar updateSidebarChoice={updateSidebarChoice}/>
-          </div>
-          <div id="display">
-            <Display sidebarChoice={sidebarChoice} 
-                    user={user} 
-                    consumed={consumed} 
-                    consumedDate={consumedDate} 
-                    setConsumed={setConsumed} 
-                    createConsumable={consumedServices.postNewConsumable}
-                    removeConsumedEntry={removeConsumedEntry}
-                    createConsumed={submitConsumed}/>
-          </div>
+          <Sidebar id="Sidebar" updateSidebarChoice={updateSidebarChoice}/>
+          <Display id="display_remove" sidebarChoice={sidebarChoice} 
+                  user={user} 
+                  consumed={consumed} 
+                  consumedDate={consumedDate} 
+                  setConsumed={setConsumed} 
+                  createConsumable={consumedServices.postNewConsumable}
+                  removeConsumedEntry={removeConsumedEntry}
+                  createConsumed={submitConsumed}/>
         </div>
       </div>
     );

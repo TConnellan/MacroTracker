@@ -20,9 +20,9 @@ const MacroDisplay = ({user, consumed, consumedDate, setConsumed, removeConsumed
     }
 
     return (
-        <div id="Display">
+        <div id="Macro-Display">
 
-            <div> 
+            <div id="Macro-Dates"> 
                 <DateRange startDate={selectedStartDate}
                             endDate={selectedEndDate} 
                             setStartDate={setSelectedStartDate}
@@ -35,13 +35,11 @@ const MacroDisplay = ({user, consumed, consumedDate, setConsumed, removeConsumed
                         startDate={selectedStartDate}
                         endDate={selectedEndDate}/>
             </div>
-            <div className="Consumable-form">
-                <DailyMacros user = {user}
+                <DailyMacros className="Consumable-Form" user = {user}
                                 createConsumable ={createConsumable} 
                                 createConsumed={createConsumed} 
                                 newConsumedEvent={newConsumedEvent} 
                                 setNewConsumedEvent={setNewConsumedEvent}/>
-            </div>
         </div>
         )
 }

@@ -5,7 +5,7 @@ const Login = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggleC
 	if (!isLoggedIn) {
 		return (
 			<div className="CreateAccountForm">
-				<form onSubmit={doLogin} className='Consumable-form'>
+				<form onSubmit={doLogin} className='Login'>
 					<h3>
 						Login:
 					</h3>
@@ -17,13 +17,11 @@ const Login = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggleC
 					<label for="password">Password:</label>
 						<input type="password" id="password" name="password" maxlength="100" defaultValue={pass} onChange={handlePass} />
 					</div>
-					<div className="Login-button">
-						<button type="submit" onClick = {doLogin}>Login</button>
+					<div >
+						<button className="Login-button" type="submit" onClick = {doLogin}>Login</button>
 					</div>
 				</form>
-				<div className="swap-account-button">
-                <button onClick = {toggleCreateAccount}>Create New Account</button>
-            </div>
+                	<button className="swap-account-button" onClick = {toggleCreateAccount}>Create New Account</button>
 			</div>
 		)
 	} else {

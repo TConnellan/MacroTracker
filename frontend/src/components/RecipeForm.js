@@ -37,12 +37,11 @@ const RecipeForm = ({user}) => {
     }
     
     return (
-        <div id="recipeDisplay">
+        <div id="Recipe-Display">
             <form onSubmit={(e) => submitRecipe(e)}>
-                <h3>Add a Recipe</h3>
+                <h3>Create New Recipe</h3>
 
                 <div>
-                    <div>Create a new recipe in this form</div>
                     <div>
                         <label for="recipename">Recipe Name:</label>
                         <input id="recipename" 

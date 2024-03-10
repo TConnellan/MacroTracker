@@ -2,14 +2,22 @@ body {
   background-color: rgb(238, 224, 241);
 }
 
+.App {
+  font-family: "Times New Roman", Times, serif;
+}
+
 #Container {
   height: 100%;
   width: 100%;
   display: flex;
 }
 
-.App {
-  font-family: "Times New Roman", Times, serif;
+.Consumable-Form {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  margin: auto 0;
+  box-sizing: border-box;
 }
 
 .Login {
@@ -17,27 +25,65 @@ body {
   margin: 0 auto;
   background: tan;
   box-sizing: border-box;
+  justify-content: center;
 }
+
 .Login-button {
-  width: 100px;
+  width: 120px;
   margin: 0 auto;
-  background: lightgrey;
   border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.swap-account-button {
+  margin: 0 auto;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
 }
 
 #Sidebar {
   width: 120px;
+  height: auto;
   background-color: tan;
 }
 
-#Display {
+#Macro-Display {
   width: 100%;
-  justify-content: center;
+  justify-content: space-between;
   display: flex; 
+  flex-direction: row;
+  justify-content: left;
+  margin: 10px;
+}
+
+#Macro-Dates {
+  width: 100%;
+  display: flex; 
+  flex-direction: column;
+  justify-content: left;
+  margin: 10px;
+  margin-right: 20px
+}
+
+#Recipe-Display {
+  width: 100%;
+  justify-content: left;
+  display: flex; 
+  flex-direction: row;
+  justify-content: left;
+  margin: 10px;
 }
 
 #CreationForm {
   margin: 30% 20%;
+  justify-content: left;
+  justify-content: left;
+  margin-left: 10px;
+  margin-top: 50px;
 }
 
 .creationForm-Choice {
@@ -46,15 +92,6 @@ body {
 
 input {
   display: block;
-}
-
-#recipeDisplay {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  margin: 0 auto;
-  align-items: center;
 }
 
 .Sidebar-button {
