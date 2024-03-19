@@ -1,4 +1,4 @@
 backend/build/*
-backend/sql/local*
+backend/sql/local_sql*
 node_modules
 .env
