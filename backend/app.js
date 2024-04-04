@@ -28,6 +28,7 @@ app.use('/api/consumed', middleware.authenticateJWT)
 app.use('/api/consumed', consumedRouter)
 
 // app.use('/api/consumable/search', middleware.authenticateJWT)
+app.use('/api/consumable/', middleware.authenticateJWT)
 app.use('/api/consumable/', consumableRouter)
 
 app.use('/api/recipe/', middleware.authenticateJWT)

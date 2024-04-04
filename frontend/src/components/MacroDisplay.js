@@ -4,7 +4,12 @@ import { useEffect, useState } from "react"
 import EventTemplateGenerator from "../utilities/generateEvent"
 import DateRange from './DateRange'
 
-const MacroDisplay = ({user, consumed, consumedDate, setConsumed, removeConsumedEntry, createConsumable, createConsumed}) => {
+import { useSelector } from "react-redux"
+
+const MacroDisplay = ({removeConsumedEntry, createConsumable, createConsumed}) => {
+
+    const user = useSelector(state => state.user.username)
+
     const [newConsumedEvent, setNewConsumedEvent] = useState(EventTemplateGenerator.getEmptyConsumedEvent(user, new Date()))
     const [selectedStartDate, setSelectedStartDate] = useState(new Date())
     const [selectedEndDate, setSelectedEndDate] = useState(null)
@@ -29,13 +34,11 @@ const MacroDisplay = ({user, consumed, consumedDate, setConsumed, removeConsumed
                             setEndDate={setSelectedEndDate}
                             timeInterval={5}/>
                 <h3>{createDateHeaderValue(selectedStartDate, selectedEndDate)}</h3>
-                <Totals consumed={consumed} 
-                        setConsumed={setConsumed} 
-                        removeConsumedEntry={removeConsumedEntry}
+                <Totals removeConsumedEntry={removeConsumedEntry}
                         startDate={selectedStartDate}
                         endDate={selectedEndDate}/>
             </div>
-                <DailyMacros className="Consumable-Form" user = {user}
+                <DailyMacros className="Consumable-Form" 
                                 createConsumable ={createConsumable} 
                                 createConsumed={createConsumed} 
                                 newConsumedEvent={newConsumedEvent} 

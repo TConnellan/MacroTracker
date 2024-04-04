@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react"
 import MacroCalcs from "../utilities/macroCalculations"
 
+import { useSelector } from "react-redux"
 
-const Totals = ({consumed, setConsumed, removeConsumedEntry, startDate, endDate}) => {
+
+const Totals = ({removeConsumedEntry, startDate, endDate}) => {
     const [hiddenButton, setHiddenButton] = useState({display: 'block'})
     const [filteredConsumed, setFilteredConsumed] = useState([])
     const [totals, setTotals] = useState({totalKJ:0,totalCarbs:0,totalFats:0,totalProteins:0})
+
+    const consumed = useSelector(state => state.consumed.consumed)
 
     useEffect(() => {
         setFilteredConsumed(consumed.filter((val) => {

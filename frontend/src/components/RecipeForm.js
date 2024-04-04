@@ -4,7 +4,7 @@ import EventTemplateGenerator from "../utilities/generateEvent"
 import consumedServices from "../services/consumed"
 import RecipeSummary from "./RecipeSummary"
 
-const RecipeForm = ({user}) => {
+const RecipeForm = () => {
     const [recipeComponents, setRecipeComponents] = useState([EventTemplateGenerator.getConsumableWithRecipeComponent({}, 1, 0, '')])
     const [recipeName, setRecipeName] = useState('')
     const [recipeNotes, setRecipeNotes] = useState('')
@@ -18,8 +18,7 @@ const RecipeForm = ({user}) => {
         
         // validate that None recipeComponents are not empty
 
-        const data = {user: user,
-                      recipe_name: recipeName,
+        const data = {recipe_name: recipeName,
                       notes: recipeNotes,
                       recipeComponents: recipeComponents
         }

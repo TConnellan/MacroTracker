@@ -5,7 +5,7 @@ import DataValidation from '../utilities/dataValidation'
 import SearchForm from './SearchForm'
 import SearchRecipes from './SearchRecipes'
 
-const CreationForm = ({user, choice, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
+const CreationForm = ({choice, createConsumable, createConsumed, newConsumedEvent, setNewConsumedEvent}) => {
 
     const submitCustomConsumed = (e) => {
         e.preventDefault()

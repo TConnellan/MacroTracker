@@ -1,7 +1,10 @@
-import userServices from '../services/user'
+import { useSelector } from 'react-redux';
 
-const Login = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount}) => {
+
+const Login = ({handleUser, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount}) => {
 	
+	const user = useSelector(state => state.user.username)
+
 	if (!isLoggedIn) {
 		return (
 			<div className="CreateAccountForm">

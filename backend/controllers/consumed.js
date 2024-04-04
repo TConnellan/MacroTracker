@@ -3,17 +3,9 @@ const { pool } = require("./dbPool")
 const logger = require("../utilities/logger")
 const standardResponses = require("../utilities/standardResponses")
 
-consumedRouter.get("/:userid&:date", (request, response) => {
+consumedRouter.get("/:date", (request, response) => {
 
-    // check user is authenticated to access this
-    if (request.authorised.id != request.params.userid) {
-        console.log(request)
-        standardResponses.respondUnauthorisedAccess(response)
-        return
-    }
-
-
-    const userID = Number(request.params.userid)
+    const userID = request.authorised.id
     logger.logInfo(`id was${userID}`);
     const date = request.params.date
     logger.logInfo(`date was: ${date}`);
@@ -85,10 +77,15 @@ WHERE user_id = $1;
 consumedRouter.post("/addconsumed", (request, response) => {
     const data = request.body
     logger.logInfo(request.body);
-    const values = [data.user_id,data.recipe_id,data.quantity,data.carbs,data.fats,data.proteins,data.consumed_at,data.created_at,data.last_edited_at,data.notes]
+
+    const id = request.authorised.id
+
+    const values = [id, data.recipe_id,data.quantity,data.carbs,data.fats,data.proteins,data.consumed_at,data.created_at,data.last_edited_at,data.notes]
     const query=
 `
-INSERT into consumed(user_id, recipe_id, quantity, carbs, fats, proteins, consumed_at, created_at, last_edited_at, notes) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);
+INSERT INTO consumed(user_id, recipe_id, quantity, carbs, fats, proteins, consumed_at, created_at, last_edited_at, notes) 
+VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+RETURNING *;
 `
     pool.connect()
         .then(client => {
