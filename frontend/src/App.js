@@ -13,35 +13,26 @@ import { setConsumedDate, setConsumed, emptyConsumed, removeFromConsumed } from 
 import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
-  const [pass, setPass] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [tokenChecked, setTokenChecked] = useState(false)
-  // const [consumed, setConsumed] = useState([])
-  const [updateConsumed, setUpdateConsumed] = useState(false)
   const [sidebarChoice, setSidebarChoice] = useState("Macros")
 
-
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user.username)
   const consumedDate = useSelector(state => state.consumed.consumedDate)
-  // const consumed = useSelector(state => state.consumed.consumed)
 
   useEffect(() => {
     userServices.verifyLoggedIn()
                 .then(resp => {
                   if (resp.status === 200) {
-                    setPass('')
                     dispatch(setUser(resp.data.username))
                     setLoggedIn(true)
                     const today = Date()
                     dispatch(setConsumedDate(today))
-                    setUpdateConsumed(!updateConsumed)
-                  } else if (resp.status === 500) {
-                    console.log("There was an issue verifying authorisation")
+                    updateConsumed()
                   }
                 })
                 .catch(err => {
-                  console.log(err)
+                  console.log("There was an issue verifying authorisation")
                 })
                 .finally(() => {
                   setTokenChecked(true)
@@ -52,11 +43,6 @@ const App = () => {
   useEffect(() => {
     document.title = "MacroTracker"
   }, [])
-
-  // useEffect(() => {
-  //   const today = Date()
-  //   dispatch(setConsumedDate(today))
-  // }, [])
   
   useEffect(() => {
     if (consumedDate.toString() != '') {
@@ -64,62 +50,11 @@ const App = () => {
     }
   }, [consumedDate])
 
-  const handleUser = (event) => {
-    event.preventDefault()
-    dispatch(setUser(event.target.value))
-  }
-  
-  const handlePass = (event) => {
-    event.preventDefault()
-    setPass(event.target.value)
-  }
-
-  const createUser = (event) => {
-    event.preventDefault()
-    userServices.postNewUser({username: user, password: pass})
-                .then(resp => {
-                  // successfully created user
-                  setPass('')
-                  dispatch(setUser(resp.data.username))
-                  setLoggedIn(true)
-                })
-                .catch(err => {
-                  if (err.response.status == 409) {
-                    alert("Username already exists, please pick another")
-                  } else if (err.response.status == 403) {
-                    alert("There was a problem creating your account, please try again later")
-                  }        
-                })
-  }
-
-  const doLogin = (event) => {
-    event.preventDefault()
-    
-    userServices.loginUser({username: user, password: pass})
-      .then(resp => {
-        setPass('')
-        setLoggedIn(true)
-        dispatch(setUser(resp.data.username))
-        const today = Date()
-        dispatch(setConsumedDate(today))
-        setUpdateConsumed(!updateConsumed)
-      })
-      .catch(resp => {
-        // actually handle it here
-        console.log("There was a problem logging in")
-      })
-  }
-
   const submitConsumed = (data) => {
     consumedServices.postConsumedEvent({...data})
-      .then(() => toggleUpdateConsumed()) 
+      .then(() => updateConsumed()) 
       // Not ideal maybe, whole request to get new consumed when we could update the state based on response
       // TODO: modify backend to return the created event with the response, then use addToConsumed action
-  }
-
-  const toggleUpdateConsumed = () => {
-    console.log("toggling consumed data, expect to see request sent");
-    setUpdateConsumed(!updateConsumed)
   }
 
   const removeConsumedEntry = (id) => {
@@ -128,17 +63,17 @@ const App = () => {
     // might want to always remove from local list anyway
   }
 
-  useEffect(() => {
+  const updateConsumed = () => {
     consumedServices.getAllConsumedByDate(consumedDate)
-      .then(initialData => {
-        dispatch(setConsumed(initialData))
-      })
-  }, [updateConsumed])
+                    .then(initialData => {
+                      dispatch(setConsumed(initialData))
+                    })
+  }
 
   const updateSidebarChoice = (choice) => {
     setSidebarChoice(choice)
     if (choice == "Macros") {
-      toggleUpdateConsumed()
+      updateConsumed()
     }
   }
   
@@ -152,7 +87,6 @@ const App = () => {
         <div id="Container">
           <Sidebar id="Sidebar" updateSidebarChoice={updateSidebarChoice}/>
           <Display id="display_remove" sidebarChoice={sidebarChoice} 
-                  user={user}
                   createConsumable={consumedServices.postNewConsumable}
                   removeConsumedEntry={removeConsumedEntry}
                   createConsumed={submitConsumed}/>
@@ -163,12 +97,7 @@ const App = () => {
     return (
       <div className="App">
         <Header logo = {bread}/>
-        <Auth handleUser = {handleUser} 
-              pass = {pass} 
-              handlePass = {handlePass} 
-              doLogin = {doLogin} 
-              isLoggedIn = {loggedIn}
-              createUser = {createUser}/>
+        <Auth setLoggedIn = {setLoggedIn} />
       </div>
     )
   }

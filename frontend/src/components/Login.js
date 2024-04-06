@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 
-const Login = ({handleUser, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount}) => {
+const Login = ({handleUser, user, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount, loginError}) => {
 	
-	const user = useSelector(state => state.user.username)
+	// const user = useSelector(state => state.user.username)
 
 	if (!isLoggedIn) {
 		return (
@@ -23,6 +23,7 @@ const Login = ({handleUser, pass, handlePass, doLogin, isLoggedIn, toggleCreateA
 					<div >
 						<button className="Login-button" type="submit" onClick = {doLogin}>Login</button>
 					</div>
+					{loginError === '' ? <></> : <div>{loginError}</div>}
 				</form>
                 	<button className="swap-account-button" onClick = {toggleCreateAccount}>Create New Account</button>
 			</div>

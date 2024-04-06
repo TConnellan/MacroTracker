@@ -21,7 +21,7 @@ const Display = ({sidebarChoice, removeConsumedEntry, createConsumable, createCo
                 <PantryDisplay />
                 )
         default:
-            return <div>Undefined</div>
+            return <></>
                 
     } 
 }
