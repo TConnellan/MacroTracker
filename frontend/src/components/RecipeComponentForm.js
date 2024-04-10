@@ -31,7 +31,6 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
         }
         consumedServices.getConsumableSearchResults(searchText)
                         .then(data => {
-                            console.log(data)
                             setSearchResults(data)
                         })
     } 
@@ -49,14 +48,11 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
     const handleCreate = (event) => {
         event.preventDefault()
         const _newConsumable = {...newConsumable, [event.target.name] : event.target.value}
-        // console.log(_newConsumable)
         setNewConsumable(_newConsumable)
     }
 
     const handleUnits = (event) => {
-        // console.log(event);
         const _newConsumable = {...newConsumable, units: event.value}
-        // console.log(_newConsumable)
         setNewConsumable(_newConsumable)
     }
 
@@ -73,14 +69,12 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
     }
 
     const chooseResult = (result) => {
-        console.log(result.id)
         updateComponent(recipeStep, result)
     }
 
     const configureComponent = (event) => {
         event.preventDefault()
         const _newConsumable = {...recipeComponents[recipeStep - 1], [event.target.name]: event.target.value}
-        // console.log(_newConsumable)
         updateComponent(recipeStep, _newConsumable)
     }
 

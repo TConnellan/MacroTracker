@@ -8,34 +8,31 @@ import {useState, useEffect} from 'react'
 import Sidebar from './components/Sidebar';
 import Display from './components/Display';
 
+import { setUser } from './reducers/userReducer'
+import { setConsumedDate, setConsumed, emptyConsumed, removeFromConsumed } from './reducers/consumedReducer'
+import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
-  const [searchValue, setSearchValue] = useState('')
-  const [userId, setUserId] = useState('')
-  const [user, setUser] = useState('')
-  const [pass, setPass] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [tokenChecked, setTokenChecked] = useState(false)
-  const [consumed, setConsumed] = useState([])
-  const [consumedDate, setConsumedDate] = useState('')
-  const [updateConsumed, setUpdateConsumed] = useState(false)
   const [sidebarChoice, setSidebarChoice] = useState("Macros")
+
+  const dispatch = useDispatch()
+  const consumedDate = useSelector(state => state.consumed.consumedDate)
 
   useEffect(() => {
     userServices.verifyLoggedIn()
                 .then(resp => {
                   if (resp.status === 200) {
-                    setPass('')
-                    setUserId(resp.data.id)
-                    setUser(resp.data.username)
+                    dispatch(setUser(resp.data.username))
                     setLoggedIn(true)
-                    setUpdateConsumed(!updateConsumed)
-                  } else if (resp.status === 500) {
-                    console.log("There was an issue verifying authorisation")
+                    const today = Date()
+                    dispatch(setConsumedDate(today))
+                    updateConsumed()
                   }
                 })
                 .catch(err => {
-                  console.log(err)
+                  console.log("There was an issue verifying authorisation")
                 })
                 .finally(() => {
                   setTokenChecked(true)
@@ -46,11 +43,6 @@ const App = () => {
   useEffect(() => {
     document.title = "MacroTracker"
   }, [])
-
-  useEffect(() => {
-    const today = Date()
-    setConsumedDate(today)
-  }, [])
   
   useEffect(() => {
     if (consumedDate.toString() != '') {
@@ -58,92 +50,30 @@ const App = () => {
     }
   }, [consumedDate])
 
-  const handleUser = (event) => {
-    event.preventDefault()
-    setUser(event.target.value)
-  }
-  
-  const handlePass = (event) => {
-    event.preventDefault()
-    setPass(event.target.value)
-  }
-
-  const handleSearch = (event) => {
-    setSearchValue(event.target.value.toLowerCase())
-  }
-
-  const submitSearch = (event) => {
-    event.preventDefault()
-    // search through food items
-  }
-
-  const createUser = (event) => {
-    event.preventDefault()
-    userServices.postNewUser({username: user, password: pass})
-                .then(resp => {
-                  // successfully created user
-                  setPass('')
-                  setUserId(resp.data.id)
-                  setUser(resp.data.username)
-                  setLoggedIn(true)
-                })
-                .catch(err => {
-                  if (err.response.status == 409) {
-                    alert("Username already exists, please pick another")
-                  } else if (err.response.status == 403) {
-                    alert("There was a problem creating your account, please try again later")
-                  }        
-                })
-  }
-
-  const doLogin = (event) => {
-    event.preventDefault()
-    
-    userServices.loginUser({username: user, password: pass})
-      .then(resp => {
-        setPass('')
-        setLoggedIn(true)
-        setUserId(resp.data.id)
-        setUser(resp.data.username)
-        setUpdateConsumed(!updateConsumed)
-        const cookies = document.cookie.split(';');
-        console.log(cookies)
-      })
-      .catch(resp => {
-        // actually handle it here
-        console.log("There was a problem logging in")
-      })
-  }
-
   const submitConsumed = (data) => {
-    consumedServices.postConsumedEvent({...data, user_id: userId})
-      .then(() => toggleUpdateConsumed()) // Not ideal maybe, whole request to get new consumed when we could update the state based on response
-  }
-
-  const toggleUpdateConsumed = () => {
-    console.log("toggling consumed data, expect to see request sent");
-    setUpdateConsumed(!updateConsumed)
+    consumedServices.postConsumedEvent({...data})
+      .then(() => updateConsumed()) 
+      // Not ideal maybe, whole request to get new consumed when we could update the state based on response
+      // TODO: modify backend to return the created event with the response, then use addToConsumed action
   }
 
   const removeConsumedEntry = (id) => {
     consumedServices.deleteConsumedEvent(id)
-        .then(setConsumed(prevCons => prevCons.filter(cons => cons.id != id)))
+        .then(dispatch(removeFromConsumed(id)))
     // might want to always remove from local list anyway
-}
+  }
 
-  useEffect(() => {
-    if (userId) {
-      consumedServices.getAllConsumedByDate(userId, consumedDate)
-        .then(initialData => {
-          setConsumed(initialData)
-        })
-    }
-  }, [updateConsumed])
+  const updateConsumed = () => {
+    consumedServices.getAllConsumedByDate(consumedDate)
+                    .then(initialData => {
+                      dispatch(setConsumed(initialData))
+                    })
+  }
 
   const updateSidebarChoice = (choice) => {
     setSidebarChoice(choice)
     if (choice == "Macros") {
-      toggleUpdateConsumed()
+      updateConsumed()
     }
   }
   
@@ -157,10 +87,6 @@ const App = () => {
         <div id="Container">
           <Sidebar id="Sidebar" updateSidebarChoice={updateSidebarChoice}/>
           <Display id="display_remove" sidebarChoice={sidebarChoice} 
-                  user={user} 
-                  consumed={consumed} 
-                  consumedDate={consumedDate} 
-                  setConsumed={setConsumed} 
                   createConsumable={consumedServices.postNewConsumable}
                   removeConsumedEntry={removeConsumedEntry}
                   createConsumed={submitConsumed}/>
@@ -171,13 +97,7 @@ const App = () => {
     return (
       <div className="App">
         <Header logo = {bread}/>
-        <Auth user = {user} 
-              handleUser = {handleUser} 
-              pass = {pass} 
-              handlePass = {handlePass} 
-              doLogin = {doLogin} 
-              isLoggedIn = {loggedIn}
-              createUser = {createUser}/>
+        <Auth setLoggedIn = {setLoggedIn} />
       </div>
     )
   }

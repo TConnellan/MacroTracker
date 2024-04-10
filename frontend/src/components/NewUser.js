@@ -1,6 +1,9 @@
 
-const NewUser = ({user, handleUser, pass, handlePass, toggleCreateAccount, createUser}) => {
+import { useSelector } from 'react-redux';
+
+const NewUser = ({handleUser, pass, handlePass, toggleCreateAccount, createUser}) => {
 	
+    const user = useSelector(state => state.user.username)
 	
     return (
         <div className="CreateAccountForm">

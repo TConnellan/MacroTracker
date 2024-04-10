@@ -6,18 +6,10 @@ const standardResponses = require("../utilities/standardResponses")
 recipeRouter.post("/addrecipe", (request, response) => {
     const data = request.body
     logger.logInfo(data)
-    // const dataId = data.user
     const dataId = request.authorised.id
     const recipeName = data.recipe_name
     const recipeNotes = data.notes
     const recipeComponents = data.recipeComponents
-    // logger.logInfo(request);
-    
-    // if (request.authorised.id != dataId) {
-    //     console.log(request)
-    //     standardResponses.respondUnauthorisedAccess(response)
-    //     return
-    // }
 
     const values = [recipeName,dataId,recipeNotes,JSON.stringify(recipeComponents)]
     const query = 

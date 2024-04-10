@@ -1,7 +1,10 @@
-import userServices from '../services/user'
+// import { useSelector } from 'react-redux';
 
-const Login = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount}) => {
+
+const Login = ({handleUser, user, pass, handlePass, doLogin, isLoggedIn, toggleCreateAccount, loginError}) => {
 	
+	// const user = useSelector(state => state.user.username)
+
 	if (!isLoggedIn) {
 		return (
 			<div className="CreateAccountForm">
@@ -20,6 +23,7 @@ const Login = ({user, handleUser, pass, handlePass, doLogin, isLoggedIn, toggleC
 					<div >
 						<button className="Login-button" type="submit" onClick = {doLogin}>Login</button>
 					</div>
+					{loginError === '' ? <></> : <div>{loginError}</div>}
 				</form>
                 	<button className="swap-account-button" onClick = {toggleCreateAccount}>Create New Account</button>
 			</div>

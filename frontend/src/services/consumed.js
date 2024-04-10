@@ -4,8 +4,8 @@ const baseUrl = "/api/"
 
 
 
-const getAllConsumedByDate = (user, date) => {
-    const ext = `consumed/${user}&${date}`
+const getAllConsumedByDate = (date) => {
+    const ext = `consumed/${date}`
     return axios.get(`${baseUrl}${ext}`)
         .then(response => response.data)
         .catch(error => {console.log(error);})
@@ -14,7 +14,6 @@ const getAllConsumedByDate = (user, date) => {
 
 const postConsumedEvent = (data) => {
     const ext = `consumed/addconsumed`
-    // data.headers = {...data.headers, authorization: `Bearer ${token}`}
     return axios.post(`${baseUrl}${ext}`, data)
 }
 
@@ -33,7 +32,6 @@ const getConsumableSearchResults = (searchName) => {
 
 const postNewConsumable = (data) => {
     const ext  = `consumable/addconsumable`
-    // data.headers = {authorization: `Bearer ${token}`}
     return axios.post(`${baseUrl}${ext}`, data)
 }
 
