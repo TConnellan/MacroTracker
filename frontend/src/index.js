@@ -15,7 +15,8 @@ import userReducer from "./reducers/userReducer"
 const store = configureStore({
     reducer: {
         user: userReducer,
-        consumed: consumedReducer
+        consumed: consumedReducer,
+        recipes: recipeReducer
     }
 })
 

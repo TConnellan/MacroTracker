@@ -4,19 +4,28 @@ import EventTemplateGenerator from "../utilities/generateEvent"
 import consumedServices from "../services/consumed"
 import RecipeSummary from "./RecipeSummary"
 
+import { addRecipe } from "../reducers/recipeReducer"
+import { useDispatch, useSelector } from 'react-redux';
+
 const RecipeForm = () => {
+    const recipes = useSelector(state => state.recipes.recipes)
     const [recipeComponents, setRecipeComponents] = useState([EventTemplateGenerator.getConsumableWithRecipeComponent({}, 1, 0, '')])
     const [recipeName, setRecipeName] = useState('')
     const [recipeNotes, setRecipeNotes] = useState('')
-    // useEffect(() => {
-    //     console.log(recipeComponents)
-    // }, [recipeComponents])
-
+    const [createRecipeError, setCreateRecipeError] = useState()
+    
+    const dispatch = useDispatch()
 
     const submitRecipe = (event) => {
         event.preventDefault()
         
-        // validate that None recipeComponents are not empty
+        for (let i = 0; i < recipeComponents.length; i++) {
+            if (recipeComponents[i].id === null || !("id" in recipeComponents[i])) {
+                setCreateRecipeError("Please remove empty steps and try again.")
+                return
+            }
+        }
+        setCreateRecipeError("")
 
         const data = {recipe_name: recipeName,
                       notes: recipeNotes,
@@ -25,14 +34,11 @@ const RecipeForm = () => {
 
         consumedServices.postNewRecipe(data)
                         .then(resp => {
-                            console.log("check response here, resp was:")
-                            console.log(resp)
+                            dispatch(addRecipe(data))
                         })
                         .catch(err => {
                             console.log(`err was ${err}`)
                         }) 
-
-
     }
     
     return (
@@ -57,6 +63,7 @@ const RecipeForm = () => {
             
                     </div>
                     <button type="submit">Create Recipe</button>
+                    {createRecipeError !== "" ? <div>{createRecipeError}</div> : <></>}
                 </div>
                     </form>
                 <div>
