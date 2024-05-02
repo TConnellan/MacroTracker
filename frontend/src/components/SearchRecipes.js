@@ -3,7 +3,7 @@ import RecipeSearchResult from "./RecipeSearchResult";
 import consumedServices from "../services/consumed"
 import { useEffect, useState } from "react";
 import RecipeConsumedForm from "./RecipeConsumedForm";
-
+import { Table } from 'react-bootstrap'
 
 const SearchRecipes = ({submitConsumedFromRecipe, consumed, submitCustomConsumed, handleChange, handleDate, loadConsumedFromRecipe}) => {
     const [searchText, setSearchText] = useState('')
@@ -58,13 +58,15 @@ const SearchRecipes = ({submitConsumedFromRecipe, consumed, submitCustomConsumed
             :
             <>
             </>
-        }
+            }
             <div>
                 <SearchForm value={searchText} onChange={updateSearch} onSubmit={submitSearch}/>
             </div>
-            <table>
-                {searchResults.map(result => <RecipeSearchResult result={result} chooseResult={chooseResult}/>)}
-            </table>
+            <Table striped border hover variant={"secondary"}>
+                <table>
+                    {searchResults.map(result => <RecipeSearchResult result={result} chooseResult={chooseResult}/>)}
+                </table>
+            </Table>
         </>
     )
 }

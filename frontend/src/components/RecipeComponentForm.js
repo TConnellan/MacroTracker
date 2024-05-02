@@ -5,7 +5,7 @@ import consumedServices from "../services/consumed"
 import EventTemplateGenerator from "../utilities/generateEvent"
 import ConsumableSearchResult from "./ConsumableSearchResult"
 import macroCalculations from "../utilities/macroCalculations"
-
+import { Table } from 'react-bootstrap'
 const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, setRecipeComponents}) => {
     const [searchExisting, setSearchExisting] = useState(false)
     const [createNew, setCreateNew] = useState(false)
@@ -123,9 +123,11 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
                                             results={searchResults}
                                             />
                                 </div>
-                                <table>
-                                    {searchResults.map(result => <ConsumableSearchResult result={result} chooseResult={chooseResult}/>)}
-                                </table>    
+                                <Table striped border hover variant={"secondary"}>
+                                    <table>
+                                        {searchResults.map(result => <ConsumableSearchResult result={result} chooseResult={chooseResult}/>)}
+                                    </table>    
+                                </Table>
                                 </> : <></>}
             {createNew ? <div>
                             <NewConsumable onSubmit={addNewConsumable} 
