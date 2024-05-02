@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import MacroCalcs from "../utilities/macroCalculations"
+import {Table} from 'react-bootstrap'
 
 import { useSelector } from "react-redux"
 
@@ -41,42 +42,46 @@ const Totals = ({removeConsumedEntry, startDate, endDate}) => {
     return (
     <div className = "Totals">
         <h2>Totals</h2>
-        <table className="Totals-table">
-            <thead className="Totals-header">
+        <Table striped bordered hover variant="secondary" >
+            <table >
+                <thead >
+                    <tr>
+                        <th>Date</th>
+                        <th>Source</th>
+                        <th>Kilojoules</th>
+                        <th>Carbohydrates</th>
+                        <th>Fats</th>
+                        <th>Proteins</th>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredConsumed.map(val => 
+                    <tr 
+                        // onMouseEnter={e => {setHiddenButton({display: 'block'})}}
+                        // onMouseLeave={e => {setTimeout(setHiddenButton, 300, {display: 'none'})}}
+                        >
+                        <td>{MacroCalcs.formatDate(val.consumed_at)}</td>
+                        <td> - </td>
+                        <td>{Math.round(MacroCalcs.calculateKilojoules(val["carbs"],val["fats"],val["proteins"])*val["quantity"]*10)/10}</td>
+                        <td>{val["carbs"]*val["quantity"]}</td>
+                        <td>{val["fats"]*val["quantity"]}</td>
+                        <td>{val["proteins"]*val["quantity"]}</td>
+                        <td><button onClick={() => removeConsumedEntry(val.id)}>x</button></td>
+                    </tr>
+                    )}
                 <tr>
-                    <th>Date</th>
-                    <th>Source</th>
-                    <th>Kilojoules</th>
-                    <th>Carbohydrates</th>
-                    <th>Fats</th>
-                    <th>Proteins</th>
-                </tr>
-            </thead>
-            <tbody>
-                {filteredConsumed.map(val => 
-                <tr className="Totals-row"
-                    // onMouseEnter={e => {setHiddenButton({display: 'block'})}}
-                    // onMouseLeave={e => {setTimeout(setHiddenButton, 300, {display: 'none'})}}
-                    >
-                    <td>{MacroCalcs.formatDate(val.consumed_at)}</td>
+                    <td>Totals</td>
                     <td> - </td>
-                    <td>{Math.round(MacroCalcs.calculateKilojoules(val["carbs"],val["fats"],val["proteins"])*val["quantity"]*10)/10}</td>
-                    <td>{val["carbs"]*val["quantity"]}</td>
-                    <td>{val["fats"]*val["quantity"]}</td>
-                    <td>{val["proteins"]*val["quantity"]}</td>
-                    <td style={hiddenButton}><button onClick={() => removeConsumedEntry(val.id)}>x</button></td>
+                    <td>{totals.totalKj}</td>
+                    <td>{totals.totalCarbs}</td>
+                    <td>{totals.totalFats}</td>
+                    <td>{totals.totalProteins}</td>
+                    <td></td>
                 </tr>
-                )}
-            <tr>
-                <td>Totals</td>
-                <td> - </td>
-                <td>{totals.totalKj}</td>
-                <td>{totals.totalCarbs}</td>
-                <td>{totals.totalFats}</td>
-                <td>{totals.totalProteins}</td>
-            </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </Table>
     </div>  
     )
 }
