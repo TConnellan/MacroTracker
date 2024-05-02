@@ -27,7 +27,7 @@ const consumedSlice = createSlice({
         state.consumed = [] // ok because immer
       },
       removeFromConsumed(state, action) {
-        return state.consumed.filter(cons => cons.id != action.payload)
+        state.consumed = state.consumed.filter(cons => cons.id != action.payload)
       }
     }
   })
