@@ -1,11 +1,16 @@
 import axios from 'axios'
+import utl from '../utilities/dataValidation'
 
 const baseUrl = "/api/"
 
 
 
-const getAllConsumedByDate = (date) => {
-    const ext = `consumed/${date}`
+const getAllConsumedByDate = (startDate, endDate) => {
+    startDate = utl.dateInYyyyMmDdHhMmSs(startDate)
+    endDate = utl.dateInYyyyMmDdHhMmSs(endDate)
+    console.log(startDate);
+    console.log(endDate);
+    const ext = `consumed/${startDate}&${endDate}`
     return axios.get(`${baseUrl}${ext}`)
         .then(response => response.data)
         .catch(error => {console.log(error);})

@@ -9,7 +9,7 @@ import Sidebar from './components/Sidebar';
 import Display from './components/Display';
 
 import { setUser } from './reducers/userReducer'
-import { setConsumedDate, setConsumed, emptyConsumed, removeFromConsumed } from './reducers/consumedReducer'
+import { setConsumedStartDate, setConsumedEndDate, setConsumed, emptyConsumed, removeFromConsumed } from './reducers/consumedReducer'
 import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
@@ -18,7 +18,9 @@ const App = () => {
   const [sidebarChoice, setSidebarChoice] = useState("Macros")
 
   const dispatch = useDispatch()
-  const consumedDate = useSelector(state => state.consumed.consumedDate)
+  const consumedStartDate = useSelector(state => state.consumed.consumedStartDate)
+  const consumedEndDate = useSelector(state => state.consumed.consumedEndDate)
+
 
   useEffect(() => {
     userServices.verifyLoggedIn()
@@ -26,12 +28,22 @@ const App = () => {
                   if (resp.status === 200) {
                     dispatch(setUser(resp.data.username))
                     setLoggedIn(true)
-                    const today = Date()
-                    dispatch(setConsumedDate(today))
-                    updateConsumed()
+                    var todayStart = new Date(new Date().setUTCHours(0,0,0,0))
+                    var todayEnd = new Date(new Date().setUTCHours(23,59,59,999))
+                    // console.log(todayStart);
+                    // console.log(typeof(todayStart));
+                    // todayStart.setUTCHours(0,0,0,0)
+                    // todayEnd.setUTCHours(23,59,59,999)
+                    dispatch(setConsumedStartDate(todayStart))
+                    dispatch(setConsumedEndDate(todayEnd))
+                    // updateConsumed()
                   }
                 })
+                .then(() => {
+                  updateConsumed()
+                })
                 .catch(err => {
+                  console.log(err)
                   console.log("There was an issue verifying authorisation")
                 })
                 .finally(() => {
@@ -44,11 +56,11 @@ const App = () => {
     document.title = "MacroTracker"
   }, [])
   
-  useEffect(() => {
-    if (consumedDate.toString() != '') {
-      console.log(`Set todays date: ${consumedDate}`)
-    }
-  }, [consumedDate])
+  // useEffect(() => {
+  //   if (consumedStartDate.toString() != '') {
+  //     console.log(`Set todays date: ${consumedStartDate}`)
+  //   }
+  // }, [consumedStartDate])
 
   const submitConsumed = (data) => {
     consumedServices.postConsumedEvent({...data})
@@ -64,7 +76,7 @@ const App = () => {
   }
 
   const updateConsumed = () => {
-    consumedServices.getAllConsumedByDate(consumedDate)
+    consumedServices.getAllConsumedByDate(consumedStartDate, consumedEndDate)
                     .then(initialData => {
                       dispatch(setConsumed(initialData))
                     })
@@ -97,7 +109,7 @@ const App = () => {
     return (
       <div className="App">
         <Header logo = {bread}/>
-        <Auth setLoggedIn = {setLoggedIn} />
+        <Auth setLoggedIn = {setLoggedIn} updateConsumed={updateConsumed} />
       </div>
     )
   }

@@ -4,8 +4,9 @@ import { useState } from "react"
 import userServices from '../services/user'
 import userActions from "../reducers/userReducer"
 import { useDispatch } from "react-redux"
+import { setConsumedStartDate, setConsumedEndDate} from '../reducers/consumedReducer'
 
-const Auth = ({setLoggedIn}) => {
+const Auth = ({setLoggedIn, updateConsumed}) => {
 	const [newAccount, setNewAccount] = useState(false)
 	const [user, setUser] = useState('')
 	const [pass, setPass] = useState('')
@@ -34,6 +35,14 @@ const Auth = ({setLoggedIn}) => {
 			setLoginError('')
 			setLoggedIn(true)
 			dispatch(userActions.setUser(resp.data.username))
+			var todayStart = new Date()
+			var todayEnd = new Date()
+			todayStart.setUTCHours(0,0,0,0)
+			todayEnd.setUTCHours(23,59,59,999)
+			dispatch(setConsumedStartDate(todayStart))
+			dispatch(setConsumedEndDate(todayEnd))
+			updateConsumed()
+
 			// const today = Date()
 			// dispatch(setConsumedDate(today))
 			// setUpdateConsumed(!updateConsumed)

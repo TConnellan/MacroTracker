@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 const initialState =  {
-    consumedDate: Date(),
+    consumedStartDate: new Date(),
+    consumedEndDate: new Date(),
     consumed: []
 }
 
@@ -12,8 +13,11 @@ const consumedSlice = createSlice({
     name: 'consumed',
     initialState,
     reducers: {
-      setConsumedDate(state, action) {
-        state.consumedDate = action.payload // ok because immer
+      setConsumedStartDate(state, action) {
+        state.consumedStartDate = action.payload // ok because immer
+      },
+      setConsumedEndDate(state, action) {
+        state.consumedEndDate = action.payload // ok because immer
       },
       setConsumed(state, action) {
         console.log("setting consumed:")
@@ -32,5 +36,5 @@ const consumedSlice = createSlice({
     }
   })
 
-export const { setConsumedDate, setConsumed, emptyConsumed, removeFromConsumed } = consumedSlice.actions
+export const { setConsumedStartDate, setConsumedEndDate, setConsumed, emptyConsumed, removeFromConsumed } = consumedSlice.actions
 export default consumedSlice.reducer

@@ -11,14 +11,17 @@ const MacroDisplay = ({removeConsumedEntry, createConsumable, createConsumed}) =
     const user = useSelector(state => state.user.username)
 
     const [newConsumedEvent, setNewConsumedEvent] = useState(EventTemplateGenerator.getEmptyConsumedEvent(user, new Date()))
-    const [selectedStartDate, setSelectedStartDate] = useState(new Date())
-    const [selectedEndDate, setSelectedEndDate] = useState(null)
+    // const [selectedStartDate, setSelectedStartDate] = useState(new Date())
+    // const [selectedEndDate, setSelectedEndDate] = useState(null)
 
-    useEffect(() => {
-        const today = new Date()
-        today.setHours(0, 0, 0)
-        setSelectedStartDate(today)
-    }, [])
+    const selectedStartDate = useSelector(state => state.consumed.consumedStartDate)
+    const selectedEndDate = useSelector(state => state.consumed.consumedEndDate)
+
+    // useEffect(() => {
+    //     const today = new Date()
+    //     today.setHours(0, 0, 0)
+    //     setSelectedStartDate(today)
+    // }, [])
 
     const createDateHeaderValue = (startDate, endDate) => {
         return startDate.toString().slice(0, 24) + `${endDate ? " - " + endDate.toString().slice(0,24) : ""}`
@@ -30,8 +33,6 @@ const MacroDisplay = ({removeConsumedEntry, createConsumable, createConsumed}) =
             <div id="Macro-Dates"> 
                 <DateRange startDate={selectedStartDate}
                             endDate={selectedEndDate} 
-                            setStartDate={setSelectedStartDate}
-                            setEndDate={setSelectedEndDate}
                             timeInterval={5}/>
                 <h3>{createDateHeaderValue(selectedStartDate, selectedEndDate)}</h3>
                 <Totals removeConsumedEntry={removeConsumedEntry}
