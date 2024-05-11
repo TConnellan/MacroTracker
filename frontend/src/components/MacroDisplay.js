@@ -3,25 +3,40 @@ import DailyMacros from "./DailyMacros"
 import { useEffect, useState } from "react"
 import EventTemplateGenerator from "../utilities/generateEvent"
 import DateRange from './DateRange'
+import consumedServices from '../services/consumed'
+import {addAllToConsumed, setConsumedStartDate} from '../reducers/consumedReducer'
 
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
-const MacroDisplay = ({removeConsumedEntry, createConsumable, createConsumed}) => {
+const MacroDisplay = ({createConsumable, createConsumed}) => {
 
     const user = useSelector(state => state.user.username)
+    const stateStartDate = useSelector(state => state.consumed.consumedStartDate)
+    const stateEndDate = useSelector(state => state.consumed.consumedEndDate)
 
     const [newConsumedEvent, setNewConsumedEvent] = useState(EventTemplateGenerator.getEmptyConsumedEvent(user, new Date()))
-    // const [selectedStartDate, setSelectedStartDate] = useState(new Date())
-    // const [selectedEndDate, setSelectedEndDate] = useState(null)
+    const [selectedStartDate, setSelectedStartDate] = useState(stateStartDate)
+    const [selectedEndDate, setSelectedEndDate] = useState(stateEndDate)
 
-    const selectedStartDate = useSelector(state => state.consumed.consumedStartDate)
-    const selectedEndDate = useSelector(state => state.consumed.consumedEndDate)
+    const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     const today = new Date()
-    //     today.setHours(0, 0, 0)
-    //     setSelectedStartDate(today)
-    // }, [])
+    const updateSelectedStartDate = (newDate) => {
+        if (newDate < stateStartDate) {
+            // need to update the state
+            consumedServices.getAllConsumedByDate(newDate, stateStartDate)
+                .then(data => {
+                    
+                    dispatch(addAllToConsumed(data))
+                    dispatch(setConsumedStartDate(newDate))
+                })
+                .then(() => {
+                    setSelectedStartDate(newDate)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+    }
 
     const createDateHeaderValue = (startDate, endDate) => {
         return startDate.toString().slice(0, 24) + `${endDate ? " - " + endDate.toString().slice(0,24) : ""}`
@@ -32,11 +47,12 @@ const MacroDisplay = ({removeConsumedEntry, createConsumable, createConsumed}) =
 
             <div id="Macro-Dates"> 
                 <DateRange startDate={selectedStartDate}
-                            endDate={selectedEndDate} 
+                            setStartDate={updateSelectedStartDate}
+                            endDate={selectedEndDate}
+                            setEndDate={setSelectedEndDate} 
                             timeInterval={5}/>
                 <h3>{createDateHeaderValue(selectedStartDate, selectedEndDate)}</h3>
-                <Totals removeConsumedEntry={removeConsumedEntry}
-                        startDate={selectedStartDate}
+                <Totals startDate={selectedStartDate}
                         endDate={selectedEndDate}/>
             </div>
                 <DailyMacros className="Consumable-Form" 

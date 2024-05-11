@@ -25,16 +25,22 @@ const consumedSlice = createSlice({
         state.consumed = action.payload // ok because immer
       },
       addToConsumed(state, action) {
+        // TODO possibly make sure id's are unique, see below
         state.consumed.push(action.payload)
+      },
+      addAllToConsumed(state, action) {
+        // TODO possibly make sure id's are unique, currently we only ever request more records in the range of [new_start_date, old_start_date)
+        //      but if somehow consumedStartDate was set to a later date then these intervals could start overlapping, food for thought
+        state.consumed.push(...action.payload)
       },
       emptyConsumed(state, action) { 
         state.consumed = [] // ok because immer
       },
       removeFromConsumed(state, action) {
-        return state.consumed.filter(cons => cons.id != action.payload)
+         state.consumed = state.consumed.filter(cons => cons.id != action.payload)
       }
     }
   })
 
-export const { setConsumedStartDate, setConsumedEndDate, setConsumed, emptyConsumed, removeFromConsumed } = consumedSlice.actions
+export const { setConsumedStartDate, setConsumedEndDate, setConsumed, emptyConsumed, removeFromConsumed, addToConsumed, addAllToConsumed } = consumedSlice.actions
 export default consumedSlice.reducer

@@ -9,7 +9,7 @@ import Sidebar from './components/Sidebar';
 import Display from './components/Display';
 
 import { setUser } from './reducers/userReducer'
-import { setConsumedStartDate, setConsumedEndDate, setConsumed, emptyConsumed, removeFromConsumed } from './reducers/consumedReducer'
+import { setConsumedStartDate, setConsumedEndDate, setConsumed } from './reducers/consumedReducer'
 import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
@@ -21,7 +21,6 @@ const App = () => {
   const consumedStartDate = useSelector(state => state.consumed.consumedStartDate)
   const consumedEndDate = useSelector(state => state.consumed.consumedEndDate)
 
-
   useEffect(() => {
     userServices.verifyLoggedIn()
                 .then(resp => {
@@ -30,13 +29,8 @@ const App = () => {
                     setLoggedIn(true)
                     var todayStart = new Date(new Date().setUTCHours(0,0,0,0))
                     var todayEnd = new Date(new Date().setUTCHours(23,59,59,999))
-                    // console.log(todayStart);
-                    // console.log(typeof(todayStart));
-                    // todayStart.setUTCHours(0,0,0,0)
-                    // todayEnd.setUTCHours(23,59,59,999)
                     dispatch(setConsumedStartDate(todayStart))
                     dispatch(setConsumedEndDate(todayEnd))
-                    // updateConsumed()
                   }
                 })
                 .then(() => {
@@ -55,12 +49,6 @@ const App = () => {
   useEffect(() => {
     document.title = "MacroTracker"
   }, [])
-  
-  // useEffect(() => {
-  //   if (consumedStartDate.toString() != '') {
-  //     console.log(`Set todays date: ${consumedStartDate}`)
-  //   }
-  // }, [consumedStartDate])
 
   const submitConsumed = (data) => {
     consumedServices.postConsumedEvent({...data})
@@ -69,11 +57,6 @@ const App = () => {
       // TODO: modify backend to return the created event with the response, then use addToConsumed action
   }
 
-  const removeConsumedEntry = (id) => {
-    consumedServices.deleteConsumedEvent(id)
-        .then(dispatch(removeFromConsumed(id)))
-    // might want to always remove from local list anyway
-  }
 
   const updateConsumed = () => {
     consumedServices.getAllConsumedByDate(consumedStartDate, consumedEndDate)
@@ -100,7 +83,6 @@ const App = () => {
           <Sidebar id="Sidebar" updateSidebarChoice={updateSidebarChoice}/>
           <Display id="display_remove" sidebarChoice={sidebarChoice} 
                   createConsumable={consumedServices.postNewConsumable}
-                  removeConsumedEntry={removeConsumedEntry}
                   createConsumed={submitConsumed}/>
         </div>
       </div>

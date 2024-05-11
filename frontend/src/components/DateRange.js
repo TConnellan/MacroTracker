@@ -1,15 +1,10 @@
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
-import { useDispatch } from 'react-redux';
-import { setConsumedStartDate, setConsumedEndDate } from '../reducers/consumedReducer';
-
 const DateRange = ({startDate, setStartDate, endDate, setEndDate, timeInterval}) => {
     if (!timeInterval) {
         timeInterval = 15
     }
-
-    const dispatch = useDispatch()
 
     return (
         <form onSubmit={() => {}}>
@@ -21,7 +16,7 @@ const DateRange = ({startDate, setStartDate, endDate, setEndDate, timeInterval})
                                 timeIntervals={timeInterval}
                                 timeCaption="time"
                                 dateFormat="MMMM d, yyyy h:mm aa"
-                                onChange={(date) => {console.log(`setting date to ${date}`); dispatch(setConsumedStartDate(date))}}
+                                onChange={(date) => {console.log(`setting date to ${date}`); setStartDate(date)}}
                                 />
             </div>
             <div>
@@ -32,7 +27,7 @@ const DateRange = ({startDate, setStartDate, endDate, setEndDate, timeInterval})
                                 timeIntervals={timeInterval}
                                 timeCaption="time"
                                 dateFormat="MMMM d, yyyy h:mm aa"
-                                onChange={(date) => dispatch(setConsumedEndDate(date))}
+                                onChange={(date) => setEndDate(date)}
                                 />
             </div>
         </form>
