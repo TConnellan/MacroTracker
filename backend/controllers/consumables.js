@@ -4,7 +4,6 @@ const logger = require("../utilities/logger")
 
 consumableRouter.post("/addconsumable", (request, response) => {
     const data = request.body
-    logger.logInfo(request);
     const values = [data.cons_name,data.brand_name,data.size,data.units,data.carbs,data.fats,data.proteins]
     const query=
 `
