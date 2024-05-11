@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react"
 import MacroCalcs from "../utilities/macroCalculations"
+import consumedServices from "../services/consumed"
 import {Table} from 'react-bootstrap'
 
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { removeFromConsumed } from "../reducers/consumedReducer"
 
 
-const Totals = ({removeConsumedEntry, startDate, endDate}) => {
+const Totals = ({startDate, endDate}) => {
     const [hiddenButton, setHiddenButton] = useState({display: 'block'})
     const [filteredConsumed, setFilteredConsumed] = useState([])
     const [totals, setTotals] = useState({totalKJ:0,totalCarbs:0,totalFats:0,totalProteins:0})
 
     const consumed = useSelector(state => state.consumed.consumed)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setFilteredConsumed(consumed.filter((val) => {
@@ -38,6 +41,13 @@ const Totals = ({removeConsumedEntry, startDate, endDate}) => {
         setTotals({totalKj:totalKj, totalCarbs:totalCarbs, totalFats:totalFats, totalProteins:totalProteins})
     }, [filteredConsumed])
 
+
+    const removeConsumedEntry = (id) => {
+        consumedServices.deleteConsumedEvent(id)
+            .then(() => {
+              dispatch(removeFromConsumed(id))
+            })
+    }
 
     return (
     <div className = "Totals">

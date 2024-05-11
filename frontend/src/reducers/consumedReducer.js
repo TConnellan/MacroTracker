@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 const initialState =  {
-    consumedDate: Date(),
+    consumedStartDate: new Date(),
+    consumedEndDate: new Date(),
     consumed: []
 }
 
@@ -12,8 +13,11 @@ const consumedSlice = createSlice({
     name: 'consumed',
     initialState,
     reducers: {
-      setConsumedDate(state, action) {
-        state.consumedDate = action.payload // ok because immer
+      setConsumedStartDate(state, action) {
+        state.consumedStartDate = action.payload // ok because immer
+      },
+      setConsumedEndDate(state, action) {
+        state.consumedEndDate = action.payload // ok because immer
       },
       setConsumed(state, action) {
         console.log("setting consumed:")
@@ -21,7 +25,13 @@ const consumedSlice = createSlice({
         state.consumed = action.payload // ok because immer
       },
       addToConsumed(state, action) {
+        // TODO possibly make sure id's are unique, see below
         state.consumed.push(action.payload)
+      },
+      addAllToConsumed(state, action) {
+        // TODO possibly make sure id's are unique, currently we only ever request more records in the range of [new_start_date, old_start_date)
+        //      but if somehow consumedStartDate was set to a later date then these intervals could start overlapping, food for thought
+        state.consumed.push(...action.payload)
       },
       emptyConsumed(state, action) { 
         state.consumed = [] // ok because immer
@@ -32,5 +42,5 @@ const consumedSlice = createSlice({
     }
   })
 
-export const { setConsumedDate, setConsumed, emptyConsumed, removeFromConsumed } = consumedSlice.actions
+export const { setConsumedStartDate, setConsumedEndDate, setConsumed, emptyConsumed, removeFromConsumed, addToConsumed, addAllToConsumed } = consumedSlice.actions
 export default consumedSlice.reducer

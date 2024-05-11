@@ -16,7 +16,7 @@ const DateRange = ({startDate, setStartDate, endDate, setEndDate, timeInterval})
                                 timeIntervals={timeInterval}
                                 timeCaption="time"
                                 dateFormat="MMMM d, yyyy h:mm aa"
-                                onChange={(d) => {console.log(`setting date to ${d}`); setStartDate(d)}}
+                                onChange={(date) => {console.log(`setting date to ${date}`); setStartDate(date)}}
                                 />
             </div>
             <div>
@@ -27,7 +27,7 @@ const DateRange = ({startDate, setStartDate, endDate, setEndDate, timeInterval})
                                 timeIntervals={timeInterval}
                                 timeCaption="time"
                                 dateFormat="MMMM d, yyyy h:mm aa"
-                                onChange={setEndDate}
+                                onChange={(date) => setEndDate(date)}
                                 />
             </div>
         </form>
