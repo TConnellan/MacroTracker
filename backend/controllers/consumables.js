@@ -32,11 +32,10 @@ RETURNING id;
 })
 
 consumableRouter.get("/search/:searchtext&:offset&:limit", (request, response) => {
-    console.log(request.body);
     const searchText = request.params.searchtext
     // restrict maximum page size
     const limit = Math.min(parseInt(request.params.limit), 100) 
-    const offset = request.params.offset
+    const offset = parseInt(request.params.offset)
     logger.logInfo(`Performing search for: ${searchText}`)
 
     const query = 
@@ -53,13 +52,14 @@ OFFSET $3
         .then((client) => {
             return client.query(query, [searchText, limit, offset])
                 .then(resp => {
+                    const fullCount = resp.rows.length > 0 ? parseInt(resp.rows[0]["full_count"]) : 0
                     const respValue = {
                         "data": resp.rows,
                         "pagination": {
-                            "totalRecords": limit,
-                            "currentPage": parseInt(offset),
-                            "totalPages": parseInt(resp.rows[0]["full_count"]), // Get this value from query
-                            "nextPage:": parseInt(offset) + 1, 
+                            "totalRecords": fullCount,
+                            "currentPage": offset,
+                            "totalPages": Math.ceil(fullCount / limit), 
+                            "nextPage:": offset === Math.ceil(fullCount / limit) - 1 ? null : offset + 1 
                         }
                     }
                     respValue.data.forEach(record => {
