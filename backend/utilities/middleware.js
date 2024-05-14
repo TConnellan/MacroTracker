@@ -30,6 +30,27 @@ const authenticateJWT = (req, res, next) => {
 
 }
 
+const checkJWTExists = (req, res, next) => {
+
+  const token = req.cookies.jwt_token
+  
+  if (!token) {
+    // respond ok, but with message of not Created
+    return res.status(200).json({ JWTExists: false})
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => { 
+    if (err) {
+      console.log(err)
+      return res.status(200).json({ JWTExists: false });
+    }
+
+    // Add the decoded user information to the request object
+    req.authorised = decoded;
+    next();
+  });
+}
+
 const unknownEndpoint = (request, response) => {
     logger.logInfo("unknown endpoint")
     response.status(404).send({ error: 'unknown endpoint' })
@@ -51,5 +72,6 @@ module.exports = {
     requestLogger,
     unknownEndpoint,
     errorHandler,
-    authenticateJWT
+    authenticateJWT,
+    checkJWTExists
 }
