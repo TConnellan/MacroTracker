@@ -30,8 +30,8 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
             return 
         }
         consumedServices.getConsumableSearchResults(searchText)
-                        .then(data => {
-                            setSearchResults(data)
+                        .then(resp => {
+                            setSearchResults(resp.data)
                         })
     } 
 

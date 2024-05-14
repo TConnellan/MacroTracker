@@ -31,7 +31,7 @@ const deleteConsumedEvent = (id) => {
 const getConsumableSearchResults = (searchName, offset=0, limit=10) => {
     const ext = `consumable/search/${searchName}&${offset}&${limit}`
     return axios.get(`${baseUrl}${ext}`)
-                .then(response => response.data.data)
+                .then(response => response.data)
                 .catch(error => {console.log(error);})
 }
 
