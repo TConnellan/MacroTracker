@@ -23,7 +23,7 @@ const SearchRecipes = ({submitConsumedFromRecipe, consumed, submitCustomConsumed
         consumedServices.getRecipeSearchResults(searchText)
                         .then(data => {
                             console.log(data)
-                            setSearchResults(data)
+                            setSearchResults(data.data)
                         })
     } 
 

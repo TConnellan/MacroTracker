@@ -28,10 +28,10 @@ const deleteConsumedEvent = (id) => {
 
 }
 
-const getConsumableSearchResults = (searchName) => {
-    const ext = `consumable/search/${searchName}`
+const getConsumableSearchResults = (searchName, offset=0, limit=10) => {
+    const ext = `consumable/search/${searchName}&${offset}&${limit}`
     return axios.get(`${baseUrl}${ext}`)
-                .then(response => response.data)
+                .then(response => response.data.data)
                 .catch(error => {console.log(error);})
 }
 
@@ -45,8 +45,8 @@ const postNewRecipe = (data) => {
     return axios.post(`${baseUrl}${ext}`, data)
 }
 
-const getRecipeSearchResults = (searchName) => {
-    const ext = `recipe/search/${searchName}`
+const getRecipeSearchResults = (searchName, offset=0, limit=10) => {
+    const ext = `recipe/search/${searchName}&${offset}&${limit}`
     return axios.get(`${baseUrl}${ext}`)
                 .then(response => response.data)
                 .catch(error => {console.log(error);})
