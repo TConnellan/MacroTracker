@@ -30,24 +30,41 @@ RETURNING id;
         })
 })
 
-consumableRouter.get("/search/:searchtext", (request, response) => {
+consumableRouter.get("/search/:searchtext&:offset&:limit", (request, response) => {
     const searchText = request.params.searchtext
+    // restrict maximum page size
+    const limit = Math.min(parseInt(request.params.limit), 100) 
+    const offset = parseInt(request.params.offset)
     logger.logInfo(`Performing search for: ${searchText}`)
 
     const query = 
 `
-SELECT * 
+SELECT *, count(*) OVER() as full_count
 FROM consumable
 WHERE cons_name ILIKE '%' || $1 || '%'
     OR brand_name ILIKE '%' || $1 || '%'
-LIMIT 10
+LIMIT $2
+OFFSET $3
 `
 
     pool.connect()
         .then((client) => {
-            return client.query(query, [searchText])
+            return client.query(query, [searchText, limit, offset])
                 .then(resp => {
-                    response.json(resp.rows)
+                    const fullCount = resp.rows.length > 0 ? parseInt(resp.rows[0]["full_count"]) : 0
+                    const respValue = {
+                        "data": resp.rows,
+                        "pagination": {
+                            "totalRecords": fullCount,
+                            "currentPage": offset,
+                            "totalPages": Math.ceil(fullCount / limit), 
+                            "nextPage:": offset === Math.ceil(fullCount / limit) - 1 ? null : offset + 1 
+                        }
+                    }
+                    respValue.data.forEach(record => {
+                        delete record.full_count
+                    })
+                    response.json(respValue)
                     logger.logInfo(`Search for ${searchText} was successful`)
                 })
                 .catch(err => {

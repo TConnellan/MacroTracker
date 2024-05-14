@@ -138,11 +138,9 @@ RETURNING id;
 })
 
 userRouter.post("/verify", (request, response) => {
-    // the app routes this path throught the JWT auth middleware
-    // if it failed authentification then that middleware will return unauthorised
-    // so if we make it here we can immediately return ok
     
-    response.status(200).json({message: 'Authorised', id: request.authorised.id, username: request.authorised.username})
+
+    response.status(200).json({JWTExists: true, message: 'Authorised', id: request.authorised.id, username: request.authorised.username})
 })
 
 module.exports = userRouter

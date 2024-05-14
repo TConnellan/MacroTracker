@@ -34,7 +34,7 @@ app.use('/api/consumable/', consumableRouter)
 app.use('/api/recipe/', middleware.authenticateJWT)
 app.use('/api/recipe/', recipeRouter)
 
-app.use('/api/user/verify', middleware.authenticateJWT)
+app.use('/api/user/verify', middleware.checkJWTExists)
 app.use('/api/user', userRouter)
 
 

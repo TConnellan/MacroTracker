@@ -21,9 +21,9 @@ const SearchRecipes = ({submitConsumedFromRecipe, consumed, submitCustomConsumed
             return 
         }
         consumedServices.getRecipeSearchResults(searchText)
-                        .then(data => {
-                            console.log(data)
-                            setSearchResults(data)
+                        .then(resp => {
+                            console.log(resp)
+                            setSearchResults(resp.data)
                         })
     } 
 

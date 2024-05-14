@@ -24,17 +24,15 @@ const App = () => {
   useEffect(() => {
     userServices.verifyLoggedIn()
                 .then(resp => {
-                  if (resp.status === 200) {
+                  if (resp.status === 200 && resp.data.JWTExists === true) {
                     dispatch(setUser(resp.data.username))
                     setLoggedIn(true)
                     var todayStart = new Date(new Date().setUTCHours(0,0,0,0))
                     var todayEnd = new Date(new Date().setUTCHours(23,59,59,999))
                     dispatch(setConsumedStartDate(todayStart))
                     dispatch(setConsumedEndDate(todayEnd))
+                    updateConsumed()
                   }
-                })
-                .then(() => {
-                  updateConsumed()
                 })
                 .catch(err => {
                   console.log(err)
