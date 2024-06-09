@@ -8,8 +8,11 @@ const formatDate = (date) => {
 
 
 const calculateKilojoules = (carbs, fats, proteins) => {
-    return carbs*16.7 + fats*37.7 + proteins*16.7
+    return computeActualGrams(carbs*16.7 + fats*37.7 + proteins*16.7, 1)
 }
 
+const computeActualGrams = (size, quantity) => {
+    return Math.round(parseFloat(size)*parseFloat(quantity)*100)/100.0
+} 
 
-export default {calculateKilojoules, formatDate};
+export default {calculateKilojoules, formatDate, computeActualGrams};
