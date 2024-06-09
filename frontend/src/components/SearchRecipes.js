@@ -3,7 +3,6 @@ import RecipeSearchResult from "./RecipeSearchResult";
 import consumedServices from "../services/consumed"
 import { useEffect, useState } from "react";
 import RecipeConsumedForm from "./RecipeConsumedForm";
-// import { computeActualGrams} from "../utilities/macroCalculations"
 import Calcs from "../utilities/macroCalculations"
 import { Table } from 'react-bootstrap'
 

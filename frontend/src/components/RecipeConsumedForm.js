@@ -5,10 +5,6 @@ import Calcs from "../utilities/macroCalculations"
 
 // Form for creating a custom consumed event, not saved as a consumable in the DB
 const RecipeConsumedForm = ({handleChange, handleDate, consumed, submitCustomConsumed}) => {
-    // const emptyConsumedEvent = {recipe:'', quantity: '', carbs: 0, proteins: 0, consumedAt: ''}
-    // const Calcs.computeActualGrams = (size, quantity) => {
-    //     return Math.round(parseFloat(size)*parseFloat(quantity)*100)/100.0
-    // } 
     
     return (
         <form onSubmit={submitCustomConsumed} className='Consumable-form'>
