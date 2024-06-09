@@ -3,6 +3,8 @@ import RecipeSearchResult from "./RecipeSearchResult";
 import consumedServices from "../services/consumed"
 import { useEffect, useState } from "react";
 import RecipeConsumedForm from "./RecipeConsumedForm";
+// import { computeActualGrams} from "../utilities/macroCalculations"
+import Calcs from "../utilities/macroCalculations"
 import { Table } from 'react-bootstrap'
 
 const SearchRecipes = ({submitConsumedFromRecipe, consumed, submitCustomConsumed, handleChange, handleDate, loadConsumedFromRecipe}) => {
@@ -29,15 +31,14 @@ const SearchRecipes = ({submitConsumedFromRecipe, consumed, submitCustomConsumed
 
     const chooseResult = (event, result) => {
         event.preventDefault()
-        console.log("A")
         console.log(result)
         
         const newValues = {recipe_id: result.id, 
                            recipe_name: result.recipe_name,
                            notes: result.notes,
-                           carbs: result.components.reduce((acc, curr) => acc + curr.carbs * curr.quantity, 0),
-                           fats: result.components.reduce((acc, curr) => acc + curr.fats * curr.quantity, 0),
-                           proteins: result.components.reduce((acc, curr) => acc + curr.proteins * curr.quantity, 0)
+                           carbs: Calcs.computeActualGrams(result.components.reduce((acc, curr) => acc + curr.carbs * curr.quantity, 0), 1),
+                           fats: Calcs.computeActualGrams(result.components.reduce((acc, curr) => acc + curr.fats * curr.quantity, 0), 1),
+                           proteins: Calcs.computeActualGrams(result.components.reduce((acc, curr) => acc + curr.proteins * curr.quantity, 0), 1)
                           }
         console.log(newValues)
         loadConsumedFromRecipe(newValues)

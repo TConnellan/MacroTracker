@@ -28,16 +28,20 @@ const Totals = ({startDate, endDate}) => {
     }, [startDate, endDate, consumed])
 
     useEffect(() => {
-        const totalCarbs = Math.round(filteredConsumed.reduce((x,y) => {
+        const totalCarbs = MacroCalcs.computeActualGrams(filteredConsumed.reduce((x,y) => {
+            console.log(x, y)
             return {"carbs": x["carbs"] + y["carbs"]*y["quantity"]
-        }}, {"carbs": 0})["carbs"]*10)/10
-        const totalFats = Math.round(filteredConsumed.reduce((x,y) => {
+        }}, {"carbs": 0})["carbs"], 1)
+        const totalFats = MacroCalcs.computeActualGrams(filteredConsumed.reduce((x,y) => {
+            console.log(x, y)
             return {"fats": x["fats"] + y["fats"]*y["quantity"]
-        }}, {"fats": 0})["fats"]*10)/10
-        const totalProteins = Math.round(filteredConsumed.reduce((x,y) => {
+        }}, {"fats": 0})["fats"], 1)
+        const totalProteins = MacroCalcs.computeActualGrams(filteredConsumed.reduce((x,y) => {
+            console.log(x, y)
             return {"proteins": x["proteins"] + y["proteins"]*y["quantity"]
-        }}, {"proteins": 0})["proteins"]*10)/10
-        const totalKj = Math.round(MacroCalcs.calculateKilojoules(totalCarbs, totalFats, totalProteins)*10)/10
+        }}, {"proteins": 0})["proteins"], 1)
+        const totalKj = MacroCalcs.calculateKilojoules(totalCarbs, totalFats, totalProteins)
+        console.log(totalKj);
         setTotals({totalKj:totalKj, totalCarbs:totalCarbs, totalFats:totalFats, totalProteins:totalProteins})
     }, [filteredConsumed])
 
@@ -73,10 +77,10 @@ const Totals = ({startDate, endDate}) => {
                         >
                         <td>{MacroCalcs.formatDate(val.consumed_at)}</td>
                         <td> - </td>
-                        <td>{Math.round(MacroCalcs.calculateKilojoules(val["carbs"],val["fats"],val["proteins"])*val["quantity"]*10)/10}</td>
-                        <td>{val["carbs"]*val["quantity"]}</td>
-                        <td>{val["fats"]*val["quantity"]}</td>
-                        <td>{val["proteins"]*val["quantity"]}</td>
+                        <td>{MacroCalcs.calculateKilojoules(val["carbs"]*val["quantity"],val["fats"]*val["quantity"],val["proteins"]*val["quantity"])}</td>
+                        <td>{MacroCalcs.computeActualGrams(val["carbs"],val["quantity"])}</td>
+                        <td>{MacroCalcs.computeActualGrams(val["fats"],val["quantity"])}</td>
+                        <td>{MacroCalcs.computeActualGrams(val["proteins"],val["quantity"])}</td>
                         <td><button onClick={() => removeConsumedEntry(val.id)}>x</button></td>
                     </tr>
                     )}
