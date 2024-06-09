@@ -35,9 +35,9 @@ const SearchRecipes = ({submitConsumedFromRecipe, consumed, submitCustomConsumed
         const newValues = {recipe_id: result.id, 
                            recipe_name: result.recipe_name,
                            notes: result.notes,
-                           carbs: result.components.reduce((acc, curr) => acc + curr.carbs, 0),
-                           fats: result.components.reduce((acc, curr) => acc + curr.fats, 0),
-                           proteins: result.components.reduce((acc, curr) => acc + curr.proteins, 0)
+                           carbs: result.components.reduce((acc, curr) => acc + curr.carbs * curr.quantity, 0),
+                           fats: result.components.reduce((acc, curr) => acc + curr.fats * curr.quantity, 0),
+                           proteins: result.components.reduce((acc, curr) => acc + curr.proteins * curr.quantity, 0)
                           }
         console.log(newValues)
         loadConsumedFromRecipe(newValues)
