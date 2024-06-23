@@ -21,6 +21,7 @@ const RecipeForm = () => {
         
         for (let i = 0; i < recipeComponents.length; i++) {
             if (recipeComponents[i].id === null || !("id" in recipeComponents[i])) {
+                console.log(recipeComponents)
                 setCreateRecipeError("Please remove empty steps and try again.")
                 return
             }
