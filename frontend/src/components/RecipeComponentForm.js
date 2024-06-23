@@ -61,9 +61,6 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
         consumedServices.postNewConsumable(newConsumable)
             .then(resp => {
                 const newComp = {...newConsumable, id: resp.data.rows[0].id}
-                console.log("resp")
-                console.log(resp)
-                console.log(newComp)
                 updateComponent(recipeStep, newComp)
             })
             .catch(err => {
