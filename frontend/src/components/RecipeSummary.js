@@ -1,11 +1,8 @@
 import macroCalculations from "../utilities/macroCalculations"
 import { Table } from 'react-bootstrap'
 
-const RecipeSummary = ({recipeComponents}) => {
 
-    const computeActualGrams = (size, quantity) => {
-        return Math.round(parseFloat(size)*parseFloat(quantity)*100)/100.0
-    }
+const RecipeSummary = ({recipeComponents}) => {
 
     return (
         <Table striped border hover variant={"secondary"}>
@@ -30,11 +27,11 @@ const RecipeSummary = ({recipeComponents}) => {
                                 <td>{comp.step_no}</td>
                                 <td>{comp.cons_name}</td>
                                 <td>{comp.brand_name}</td>
-                                <td>{computeActualGrams(comp.quantity, comp.size)}{comp.units}</td>
-                                <td>{computeActualGrams(comp.quantity, comp.carbs)}</td>
-                                <td>{computeActualGrams(comp.quantity, comp.fats)}</td>
-                                <td>{computeActualGrams(comp.quantity, comp.proteins)}</td>
-                                <td>{macroCalculations.calculateKilojoules(comp.carbs, comp.fats, comp.proteins)}</td>
+                                <td>{macroCalculations.computeActualGrams(comp.size, comp.quantity)}{comp.units}</td>
+                                <td>{macroCalculations.computeActualGrams(comp.carbs, comp.quantity)}</td>
+                                <td>{macroCalculations.computeActualGrams(comp.fats, comp.quantity)}</td>
+                                <td>{macroCalculations.computeActualGrams(comp.proteins, comp.quantity)}</td>
+                                <td>{macroCalculations.calculateKilojoules(comp.carbs*comp.quantity, comp.fats*comp.quantity, comp.proteins*comp.quantity)}</td>
                             </tr>
                         )
                     })
@@ -44,9 +41,9 @@ const RecipeSummary = ({recipeComponents}) => {
                     <td> - </td>
                     <td> - </td>
                     <td> - </td> {/* the following is pointless repetition, can store cumulative macros so not repeating the reduce in kjs, will implement state for it later*/}
-                    <td>{Math.round(recipeComponents.reduce((acc,curr) => acc + computeActualGrams(curr.quantity, curr.carbs), 0)*10)/10}</td>
-                    <td>{Math.round(recipeComponents.reduce((acc,curr) => acc + computeActualGrams(curr.quantity, curr.fats), 0)*10)/10}</td>
-                    <td>{Math.round(recipeComponents.reduce((acc,curr) => acc + computeActualGrams(curr.quantity, curr.proteins), 0)*10)/10}</td>
+                    <td>{Math.round(recipeComponents.reduce((acc,curr) => acc + macroCalculations.computeActualGrams(curr.carbs, curr.quantity), 0)*10)/10}</td>
+                    <td>{Math.round(recipeComponents.reduce((acc,curr) => acc + macroCalculations.computeActualGrams(curr.fats, curr.quantity), 0)*10)/10}</td>
+                    <td>{Math.round(recipeComponents.reduce((acc,curr) => acc + macroCalculations.computeActualGrams(curr.proteins, curr.quantity), 0)*10)/10}</td>
                     <td>{Math.round(macroCalculations.calculateKilojoules(
                                             recipeComponents.reduce((acc,curr) => (acc + curr.carbs * curr.quantity), 0), 
                                             recipeComponents.reduce((acc,curr) => (acc + curr.fats * curr.quantity), 0), 

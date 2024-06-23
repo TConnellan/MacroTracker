@@ -60,7 +60,7 @@ const RecipeComponentForm = ({updateComponent, recipeStep, recipeComponents, set
         event.preventDefault()
         consumedServices.postNewConsumable(newConsumable)
             .then(resp => {
-                const newComp = {...newConsumable, component_id: resp.data.rows[0].id}
+                const newComp = {...newConsumable, id: resp.data.rows[0].id}
                 updateComponent(recipeStep, newComp)
             })
             .catch(err => {
