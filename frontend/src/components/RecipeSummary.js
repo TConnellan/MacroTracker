@@ -4,10 +4,6 @@ import { Table } from 'react-bootstrap'
 
 const RecipeSummary = ({recipeComponents}) => {
 
-    // const computeActualGrams = (size, quantity) => {
-    //     return Math.round(parseFloat(size)*parseFloat(quantity)*100)/100.0
-    // }
-
     return (
         <Table striped border hover variant={"secondary"}>
             <table > {/* className="Totals-table"*/}
